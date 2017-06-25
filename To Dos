@@ -1,0 +1,40 @@
+Email Users Page
+  1) Set up and email users page so that the Admins can send emails to all users
+  2) Have ability to email users in specific states, or other filters (ie first 50 users)
+  
+Account Page
+  1) right now account page is just an account settings page where they can update their info
+  2) Add stats like #passes used, gyms visited
+  3) Have ability to add additional info like hobbies,years climbing, type of climbing preferred, occupation
+    a) this is the info that could eventually be used to link climbing partners
+    
+Gym Logins
+  1) Set up gym logins
+  2) Have separate pages for gyms where they can send messages to climbers, see stats about passes used at their gym
+  
+Payment Page
+  1) Need to research payment options (WePay, Stripe, etc)
+  2) Items to talk with payment provider
+    a) Ability to deposit funds directly into RockPass account and gym accounts
+    b) Coupon code options (ie refer a friend, 1st 50 users)
+  3) If any usesrs don't have any passes available, send them emails or direct them to the payment page
+  
+Input Page Edits
+  1)For pages that have input fields, set up verification as user is enter info so they can see errors in real time instead of 
+    using large if statements after the fact.
+    a) this would include have the errors or success alerts show up next to inputs 
+    
+Index Page
+  1) Update to have more relavent info, help guide user to purchased and then using passes
+
+Passes Page
+  1) Update to have much nicer layout
+  
+Create FAQ Page  
+  
+Header Files  
+  1) Update to have all links in a side menu 
+  
+  
+  
+  

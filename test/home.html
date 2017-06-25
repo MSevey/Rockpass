@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>Petshop_demo</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+<script src="https://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+
+<style>
+	#wrapper{
+		margin: 150px auto;
+		width:900px;
+	}
+	#header{
+		background-color:#0CF;	
+	}
+	#wrapper{
+		/*background-color:#FCF;	*/
+	}
+	li{
+		cursor:pointer;
+		padding: 15px;
+	}
+
+
+</style>
+</head>
+
+<body>
+
+	<div id="wrapper">
+	
+    	<div id="header">
+    		<ul>
+    			<!-- getpage is the function with a variable in ('variable') -->
+            	<li onClick="getpage('home')"    >home</li>
+                <li onClick="getpage('details')"   >details</li>
+                <li onClick="getpage('shop')"   >shop</li>
+            	
+            </ul>
+    	</div>
+    
+    	<div id="content">
+    
+   		</div>
+        
+        
+    
+    
+	</div>
+	
+    <script>
+		
+		//getpage is the function name. linkname is identifying/storing the variable being passed on
+		function getpage(linkname){
+		
+			//built in ajax fuction
+			$.ajax({
+				//defining the settings of the ajax function
+				type: "POST", //method
+				dataType: "json",
+				url: "load.php", //target file
+				data: {page: linkname}, //this is the data being sent
+				success: function(data){ //defining what happens when succesful.  returnpage is the value/data being returned from load.php
+						$('#content').html(data.content);
+						$('#content').css('background-color',data.color);
+				}	
+
+			});
+		};
+		
+	
+		
+	
+	</script>
+    
+</body>
+</html>
