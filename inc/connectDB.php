@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /*
 ********************************************************
@@ -6,7 +6,7 @@
 *	File: conectDB.php
 *	By: Matthew Sevey
 *	Date: July 26, 2015
-*	Purpose: To connect to the RPassdb database 
+*	Purpose: To connect to the RPassdb database
 *			and return an error message if unsuccessful
 *
 ********************************************************
@@ -18,7 +18,7 @@
 	$db = array(
 		'hostname' => 'localhost',
 		'username' => 'root',
-		'password' => '',
+		'password' => 'password',
 		'database' => 'rpassdb',
 		);
 
@@ -32,10 +32,10 @@
 
 
 //Setting Variable $dbSuccess initially to false so that if nothing happens we will have an error message
-	$dbSuccess = false; 
+	$dbSuccess = false;
 
 //Setting vaiable $dbConnected to a value of Ture or False based on if the db is connected
-	$dbConnected = mysql_connect($db['hostname'],$db['username'],$db['password'],$db['database']); 
+	$dbConnected = mysql_connect($db['hostname'],$db['username'],$db['password'],$db['database']);
 
 //First checking to see if the mysql_connect statement came back as true making the variable $dbConnected = true
 
@@ -61,5 +61,3 @@
 	}
 
 ?>
-
-
