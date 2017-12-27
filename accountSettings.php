@@ -275,7 +275,7 @@ $errormsg = "";
 						</div>';
 
 			} else {
-	        	$errormsg = "Sorry something went wrong with updating your hobbies, please refresh page and try again.";
+	        	$errormsg = "Sorry something went wrong with updating your climbing stats, please refresh page and try again.";
 				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 		          			'.$errormsg.'
 		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
