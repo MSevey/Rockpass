@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /************************************************
 
@@ -6,7 +6,7 @@
 	Working
 
 	TO DOs
-	1) 
+	1)
 
 ************************************************/
 
@@ -15,13 +15,13 @@
 //Contains connectDB.php, session_start and decides which header to display
 //Also contains $userRow and $password which are the users info from the users table and their last entry in the passes table
 include("./chooseHeader.php");
-	
+
 
 //Identifying Script name to run when update button is clicked
 $thisScriptName = "accountSettings";
 
 // sets error message to an empty highlight_string(str)
-$errormsg = ""; 
+$errormsg = "";
 
 // For Updating general settings
 	//Grabbing Current User email
@@ -46,9 +46,9 @@ $errormsg = "";
 
 			//Checking if password was changed or not
 			if ($password != "*****") {
-				
-				
-				//Checks to make sure that the password and password confirm fields are equal to each other	
+
+
+				//Checks to make sure that the password and password confirm fields are equal to each other
 				if ($password == $password_Confirm) {
 
 					//Checking to make sure the password does not contain any other user info
@@ -71,61 +71,61 @@ $errormsg = "";
 
 						$password = mysql_real_escape_string(@$_POST["password"]);
 						$password_Confirm = mysql_real_escape_string(@$_POST["password_Confirm"]);
-						
+
 						$password = md5($password);
 
 						$users_Update = "UPDATE users ";
 				      	$users_Update .= "SET password='$password'  ";
 				     	$users_Update .= "WHERE email='$originalEmail' ";
 
-				     	//Checks to make sure update statement worked.				
+				     	//Checks to make sure update statement worked.
 						if (mysql_query($users_Update)) {
-							
+
 
 							echo '<div class="alert alert-success text-center" role="alert"><strong>Success!</strong>  Your info was updated!</div>';
-								
+
 						} else {
 
 							echo '<div class="alert alert-danger text-center" role="alert">Oops, looks liks something did not update.  Try reloading the page and trying again.</div>';
-								
-						}		
+
+						}
 					}
 
 				} else {
 
 					echo '<div class="alert alert-danger text-center" role="alert">Please make sure your passwords match.</div>';
-							
-				} 
+
+				}
 
 			} else {
 
-			
+
 				$fName = mysql_real_escape_string(@$_POST["fName"]);
 				$lName = mysql_real_escape_string(@$_POST["lName"]);
 				$username = mysql_real_escape_string(@$_POST["username"]);
 				$email = mysql_real_escape_string(@$_POST["email"]);
 				$state = mysql_real_escape_string(@$_POST["state"]);
 				$job = mysql_real_escape_string(@$_POST["job"]);
-				
+
 
 				$users_Update = "UPDATE users ";
 			  	$users_Update .= "SET fName='$fName', lName='$lName', username='$username', email='$email', state='$state', job='$job'  ";
 			 	$users_Update .= "WHERE email='$originalEmail' ";
 
-								
-				//Checks to make sure update statement worked.				
-				if (mysql_query($users_Update)) {
 
+				//Checks to make sure update statement worked.
+				if (mysql_query($users_Update)) {
+					$_SESSION["username_login"] = $username;
 					echo '<div class="alert alert-success text-center" role="alert"><strong>Success!</strong>  Your info was updated!</div>';
-						
+
 				} else {
 
 					echo '<div class="alert alert-danger text-center" role="alert">Oops, looks liks something did not update.  Try reloading the page and trying again.</div>';
-						
-				}										
+
+				}
 			}
 		}
-					
+
 // For Updating Profile Picture
 	// Setting parameters for file upload
 	$target_dir = "./img/";
@@ -142,7 +142,7 @@ $errormsg = "";
 
 		//Checking if image is an actual image
 		$imgCheck = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-		if ($imgCheck !== false) {										
+		if ($imgCheck !== false) {
 			$uploadOk = 1;
 
 			//Checking to see if file already exists
@@ -152,49 +152,49 @@ $errormsg = "";
 
 			 // Check file size
 			if ($_FILES["fileToUpload"]["size"] > 500000) {
-				$errormsg = "Pictures must be less than 500KB."; 
+				$errormsg = "Pictures must be less than 500KB.";
 				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 		          			'.$errormsg.'
 		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
-						</div>'; 
+						</div>';
 			    $uploadOk = 0;
 			}
 
 			// Allow certain file formats
 			if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 			&& $imageFileType != "gif" ) {
-				$errormsg = "Make sure your file is a jpg, jpeg, png, or gif format."; 
+				$errormsg = "Make sure your file is a jpg, jpeg, png, or gif format.";
 				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 		          			'.$errormsg.'
 		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
-						</div>'; 
+						</div>';
 			    $uploadOk = 0;
 			}
 
 		} else {
-			$errormsg = "Something looks wrong with your file.  Please select your image again."; 
+			$errormsg = "Something looks wrong with your file.  Please select your image again.";
 			echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 	          			'.$errormsg.'
 	          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-					</div>'; 
+					</div>';
 		    $uploadOk = 0;
 		}
 
 		// Check if $uploadOk is set to 0 by an error
 		if ($uploadOk == 0) {
-			$errormsg = "Sorry your file was not uploaded."; 
+			$errormsg = "Sorry your file was not uploaded.";
 			echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 	          			'.$errormsg.'
 	          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-					</div>'; 
+					</div>';
 
 			// if everything is ok, try to upload file
 		} else {
@@ -204,39 +204,39 @@ $errormsg = "";
 			$newfilename = round(microtime(true)) . '.' . end($temp);
 			$target_file = $target_dir.$newfilename;
 
-		    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {									
+		    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
 		        $profilePic = $target_file;
 		        $profilePic_Update = "UPDATE users SET profilePic='$profilePic' WHERE username='$username'";
 
 		        if (mysql_query($profilePic_Update)) {
-					
+
 					echo '	<div class="alert alert-dismissable alert-success text-center" role="alert">
 			          			<strong>Success!</strong>  Your profile picture was uploaded!
 			          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-							</div>'; 
+							</div>';
 
 		        } else {
-		        	$errormsg = "Sorry something went wrong with updating your information, please refresh page and try again."; 
+		        	$errormsg = "Sorry something went wrong with updating your information, please refresh page and try again.";
 					echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 			          			'.$errormsg.'
 			          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-							</div>'; 
+							</div>';
 		        }
 		    } else {
-		        $errormsg = "Sorry something went wrong with the upload, please refresh page and try again."; 
+		        $errormsg = "Sorry something went wrong with the upload, please refresh page and try again.";
 				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 		          			'.$errormsg.'
 		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
-						</div>'; 
+						</div>';
 		    }
 		}
-	}	
+	}
 
 	$fld_profilePic = '<img src="'.$profilePic.'" class="img-circle img-responsive" id="profilePic" alt="Responsive image">';
 
@@ -258,7 +258,7 @@ $errormsg = "";
 				$leadinglvl = mysql_real_escape_string(@$_POST["leadinglvl"]);
 				$yearsClimbing = mysql_real_escape_string(@$_POST["yearsClimbing"]);
 
-			// Updating userdata 
+			// Updating userdata
 				$userData_update = "UPDATE userdata ";
 				$userData_update .= "SET boulderingLvl='$boulderinglvl', topRopingLvl='$topRopinglvl', ";
 				$userData_update .= 	"leadingLvl='$leadinglvl', preferedStyle='$preferedStyle', ";
@@ -266,7 +266,7 @@ $errormsg = "";
 				$userData_update .= "WHERE userID='$userID'";
 
 			if (mysql_query($userData_update)) {
-				
+
 				echo '	<div class="alert alert-dismissable alert-success text-center" role="alert">
 		          			<strong>Success!</strong> Your climbing stats have been updated!
 		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -275,13 +275,13 @@ $errormsg = "";
 						</div>';
 
 			} else {
-	        	$errormsg = "Sorry something went wrong with updating your hobbies, please refresh page and try again."; 
+	        	$errormsg = "Sorry something went wrong with updating your hobbies, please refresh page and try again.";
 				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 		          			'.$errormsg.'
 		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
-						</div>'; 
+						</div>';
 	        }
 
 		}
@@ -324,7 +324,7 @@ $errormsg = "";
 				$userHobbies_update .= "WHERE userID='$userID'";
 
 			if (mysql_query($userHobbies_update)) {
-				
+
 				echo '	<div class="alert alert-dismissable alert-success text-center" role="alert">
 		          			<strong>Success!</strong> Your hobbies have been updated!
 		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -333,13 +333,13 @@ $errormsg = "";
 						</div>';
 
 			} else {
-	        	$errormsg = "Sorry something went wrong with updating your hobbies, please refresh page and try again."; 
+	        	$errormsg = "Sorry something went wrong with updating your hobbies, please refresh page and try again.";
 				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 		          			'.$errormsg.'
 		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
-						</div>'; 
+						</div>';
 	        }
 
 		}
@@ -413,7 +413,7 @@ $errormsg = "";
 		            <option value="Teacher">Teacher</option>
 		            <option value="Marketing">Marketing</option>
 		            <option value="Retail">Retail</option>
-		        </select>';		  
+		        </select>';
 
 // Input fields for Climbing Stats
 	$fld_preferedStyle =   '<select name="preferedStyle" class="form-control" required>
@@ -518,9 +518,9 @@ $errormsg = "";
 		$fld_rockClimbing = '<label><input type="checkbox" name="rockClimbing" value="1"> Rock Climbing</label>';
 	}
 	if ($iceClimbing == 1) {
-		$fld_iceClimbing = '<label><input type="checkbox" name="iceClimbing" value="1" checked="checked"> Ice Climbing</label>';	
+		$fld_iceClimbing = '<label><input type="checkbox" name="iceClimbing" value="1" checked="checked"> Ice Climbing</label>';
 	} else {
-		$fld_iceClimbing = '<label><input type="checkbox" name="iceClimbing" value="1"> Ice Climbing</label>';	
+		$fld_iceClimbing = '<label><input type="checkbox" name="iceClimbing" value="1"> Ice Climbing</label>';
 	}
 	if ($hiking == 1) {
 		$fld_hiking = '<label><input type="checkbox" name="hiking" value="1" checked="checked"> Hiking</label>';
@@ -593,7 +593,7 @@ $errormsg = "";
 							<label for="password_Confirm">Confirm Password</label>
 							<?php echo $fld_password_Confirm; ?>
 						</div>
-						
+
 						<label>State: </label>
 				        <?php echo $fld_state; ?>
 				        <br>
@@ -603,7 +603,7 @@ $errormsg = "";
 
 
 						<br>
-						<button type="submit" class="btn btn-primary" name="update">Update Info!</button>	
+						<button type="submit" class="btn btn-primary" name="update">Update Info!</button>
 
 					</form>
 
@@ -623,12 +623,12 @@ $errormsg = "";
 	   			<br>
 
 	   			<div class="row">
-					<form action="<?php echo $thisScriptName; ?>" method="post" enctype="multipart/form-data">	
+					<form action="<?php echo $thisScriptName; ?>" method="post" enctype="multipart/form-data">
 						<div class="form-group">
 						    <label for="fileToUpload">Update Profile Picture:</label>
-						    <input type="file" name="fileToUpload" id="fileToUpload"> 
+						    <input type="file" name="fileToUpload" id="fileToUpload">
 						</div>
-						
+
 						<button type="submit" class="btn btn-primary" name="upload">Upload!</button>
 					</form>
 				</div>
@@ -667,18 +667,18 @@ $errormsg = "";
 							<?php echo $fld_yearClimbing; ?>
 						</div>
 
-						<!-- Looking for new friends/partners 
+						<!-- Looking for new friends/partners
 								this would enable sending notification of matches in stead of just displaying suggestions
 							-->
 
 						<br>
-						<button type="submit" class="btn btn-primary" name="stats">Update Stats!</button>	
+						<button type="submit" class="btn btn-primary" name="stats">Update Stats!</button>
 
 					</form>
 
 				</div>
 
-			</div>		
+			</div>
 			<div role="tabpanel" class="tab-pane" id="hobbies">
 
 				<div class="col-sm-6">
@@ -712,7 +712,7 @@ $errormsg = "";
 
 	</div>
 
-</div>		
+</div>
 
 
 <?php include("./footer.php"); ?>

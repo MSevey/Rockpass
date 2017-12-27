@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 
 /**************************************
@@ -13,14 +13,14 @@
 //Contains connectDB.php, session_start and decides which header to display
 //Also contains $userRow and $password which are the users info from the users table and their last entry in the passes table
 include("./chooseHeader.php");
-  
+
 
 
 // This is used with the form field below so that when click the script runs again.
 $thisScriptName = "passes";
 
 // sets error message to an empty highlight_string(str)
-$errormsg = ""; 
+$errormsg = "";
 
 //Grabbing the Date in Year Month Day hour minute second format
 $today = date("Y-m-d H:i:s");
@@ -33,10 +33,10 @@ if (isset($_POST["emailPass"])) {
   // setting $rockgym equal to the value from drop down
   $rockGym = mysql_real_escape_string(@$_POST["rockGym"]);
 
-  
-  // Checking to see if there is a pass logged for today.  If no passes logged for today, continue.  
+
+  // Checking to see if there is a pass logged for today.  If no passes logged for today, continue.
   if (date("Y-m-d 00:00:00") > $usedPassRow['dateUsed'] || $passNumRows ==10){
-  
+
     // no passes in DB for today.  In other words, the last 'dateUsed' is less than today
     // Checks to make sure the user has passes available.
     if ($passNumRows > 0) {
@@ -56,7 +56,7 @@ if (isset($_POST["emailPass"])) {
 
         //*************************************************************
 
-      //Checks to make sure update statement worked.        
+      //Checks to make sure update statement worked.
       if (mysql_query($passes_SQLUpdate)) {
 
         $to = "mjsevey@gmail.com";
@@ -90,55 +90,55 @@ if (isset($_POST["emailPass"])) {
         $headers .= 'Cc: matt@therockpass.com' . "\r\n";
 
         if (mail($to,$subject,$message,$headers)) {
-          $errormsg = "Your pass is in your inbox!"; 
+          $errormsg = "Your pass is in your inbox!";
           echo '  <div class="alert alert-dismissable alert-success text-center" role="alert">
                     '.$errormsg.'
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
-                  </div>'; 
+                  </div>';
         } else {
-          $errormsg = "Oops there seems to be a problem.  The Email did not send."; 
+          $errormsg = "Oops there seems to be a problem.  The Email did not send.";
           echo '  <div class="alert alert-dismissable alert-danger text-center" role="alert">
                     '.$errormsg.'
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
-                  </div>'; 
+                  </div>';
         }
 
       } else {
-        $errormsg = "Oops there seems to be a problem, DB did not update.  Try Reloading the page and selecting your Gym Again."; 
+        $errormsg = "Oops there seems to be a problem, DB did not update.  Try Reloading the page and selecting your Gym Again.";
         echo '  <div class="alert alert-dismissable alert-danger text-center" role="alert">
                   '.$errormsg.'
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
-                </div>'; 
-      } 
-      
-  
-    } else { 
+                </div>';
+      }
+
+
+    } else {
       // User has no passes available
       // Header is for localhost.  Does not work on live website
       header("Location: noPass");
-      
+
       // Javascript is for live website.  Does not work on localhost
       // echo '<script type="text/javascript"> window.location="www.therockpass.com/noPass"; </script>';
 
-    } 
-  
+    }
+
   } else {
       // User has already used a pass today
       // Header is for localhost.  Does not work on live website
       header("Location: passUsedToday");
-      
+
       // Javascript is for live website.  Does not work on localhost
       // echo '<script type="text/javascript"> window.location="www.therockpass.com/passUsedToday"; </script>';
 
-  } 
+  }
 
-} 
+}
 
 $fld_rockGym = '<select name="rockGym" class="form-control" required>
                   <option value="">Select Gym</option>
@@ -148,7 +148,7 @@ $fld_rockGym = '<select name="rockGym" class="form-control" required>
                   <option value="CRG">CRG</option>
                 </select>';
 
-  
+
 
 
 ?>
@@ -189,9 +189,9 @@ $fld_rockGym = '<select name="rockGym" class="form-control" required>
       <th>Status</th>
     </tr>
 
-    <?php 
+    <?php
 
-      for ($i=0; $i < 10; $i++) { 
+      for ($i=0; $i < 10; $i++) {
         echo "<tr>
                 <td>".$passPack[$i]['ID']."</td>
                 <td>".$passPack[$i]['dateUsed']."</td>
@@ -208,6 +208,6 @@ $fld_rockGym = '<select name="rockGym" class="form-control" required>
 
 </div>
 
-   
+
 
 <?php include("./footer.php");?>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /************************************************
 	STATUS OF PAGE
@@ -6,7 +6,7 @@
 	**this will then be modified slightly to be converting to a gym account page***
 
 	TO DOs
-	1) 
+	1)
 	2) Set up "About" section that displays stats, hobbies, etc
 		a) Have link to account settings to edit or ability to edit
 	3) Matches
@@ -27,7 +27,7 @@ include("./chooseHeader.php");
 $thisScriptName = "account.php";
 
 // sets error message to an empty highlight_string(str)
-$errormsg = ""; 
+$errormsg = "";
 
 //Checking for missing information in the users table
 	if ($userRow['fName']==""||$userRow['lName']==""||$userRow['username']=="NULL"||$userRow['password']==""||$userRow['email']==""||$userRow['state']=="") {
@@ -49,7 +49,7 @@ $errormsg = "";
 
 		//Checking if image is an actual image
 		$imgCheck = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-		if ($imgCheck !== false) {										
+		if ($imgCheck !== false) {
 			$uploadOk = 1;
 
 			//Checking to see if file already exists
@@ -59,7 +59,7 @@ $errormsg = "";
 
 			 // Check file size
 			if ($_FILES["fileToUpload"]["size"] > 500000) {
-			   $errormsg = "Pictures must be less than 500KB."; 
+			   $errormsg = "Pictures must be less than 500KB.";
 				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 		          			'.$errormsg.'
 		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -72,7 +72,7 @@ $errormsg = "";
 			// Allow certain file formats
 			if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 			&& $imageFileType != "gif" ) {
-			   $errormsg = "Make sure your file is a jpg, jpeg, png, or gif format."; 
+			   $errormsg = "Make sure your file is a jpg, jpeg, png, or gif format.";
 				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 		          			'.$errormsg.'
 		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -83,7 +83,7 @@ $errormsg = "";
 			}
 
 		} else {
-		   $errormsg = "Something looks wrong with your file.  Please select your image again."; 
+		   $errormsg = "Something looks wrong with your file.  Please select your image again.";
 			echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 	          			'.$errormsg.'
 	          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -95,7 +95,7 @@ $errormsg = "";
 
 		// Check if $uploadOk is set to 0 by an error
 		if ($uploadOk == 0) {
-		   $errormsg = "Sorry your file was not uploaded."; 
+		   $errormsg = "Sorry your file was not uploaded.";
 			echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 	          			'.$errormsg.'
 	          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -111,7 +111,7 @@ $errormsg = "";
 			$newfilename = round(microtime(true)) . '.' . end($temp);
 			$target_file = $target_dir.$newfilename;
 
-		    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {									
+		    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
 		        $profilePic = $target_file;
 		        $profilePic_Update = "UPDATE users SET profilePic='$profilePic' WHERE username='$username'";
 
@@ -125,7 +125,7 @@ $errormsg = "";
 					// echo '<script type="text/javascript"> window.location="www.therockpass.com/account"; </script>';
 
 		        } else {
-		        	$errormsg = "Sorry something went wrong with updating your information, please refresh page and try again."; 
+		        	$errormsg = "Sorry something went wrong with updating your information, please refresh page and try again.";
 					echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 			          			'.$errormsg.'
 			          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -134,7 +134,7 @@ $errormsg = "";
 							</div>';
 		        }
 		    } else {
-		        $errormsg = "Sorry something went wrong with the upload, please refresh page and try again."; 
+		        $errormsg = "Sorry something went wrong with the upload, please refresh page and try again.";
 				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 		          			'.$errormsg.'
 		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -143,7 +143,7 @@ $errormsg = "";
 						</div>';
 		    }
 		}
-	}	
+	}
 
 
 	$profilePic = $userRow['profilePic'];
@@ -154,8 +154,8 @@ $errormsg = "";
 
 	if (isset($_POST["referral"])) {
 		unset($_POST["referral"]);
-		
-		for ($i=0; $i < 6; $i++) { 
+
+		for ($i=0; $i < 6; $i++) {
 			$randomValue = substr("abcdefghijklmnopqrstuvwxyz0123456789", mt_rand(0,35), 1);
 			$referralCode = $referralCode.$randomValue;
 		}
@@ -178,13 +178,13 @@ $errormsg = "";
 			// echo '<script type="text/javascript"> window.location="www.therockpass.com/account"; </script>';
 
         } else {
-        	$errormsg = "Sorry something went wrong with your referral code, please refresh page and try again."; 
+        	$errormsg = "Sorry something went wrong with your referral code, please refresh page and try again.";
 			echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 	          			'.$errormsg.'
 	          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-					</div>'; 
+					</div>';
         }
 
 
@@ -204,7 +204,7 @@ $errormsg = "";
 	$mostVisitGym = "";
 	$numVisits = 0;
 
-	for ($i=0; $i < $gymUserStateNum; $i++) { 
+	for ($i=0; $i < $gymUserStateNum; $i++) {
 
 	  $gymInfo = mysql_query("SELECT * FROM gyms WHERE state='$userState' LIMIT 1 OFFSET $i");
 	  $gym = mysql_fetch_array($gymInfo);
@@ -244,13 +244,13 @@ $errormsg = "";
 
 		} else {
 
-			$errormsg = "Oops! Something went wrong. Please refresh the page."; 
+			$errormsg = "Oops! Something went wrong. Please refresh the page.";
 			echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 	          			'.$errormsg.'
 	          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-					</div>'; 
+					</div>';
 
 			echo " (".__LINE__.")";
 
@@ -275,21 +275,21 @@ $errormsg = "";
 			<div class="col-sm-2 col-xs-6 pull-left">
 
 				<?php if ($profilePic == "") : ?>
-					
-					<form action="<?php echo $thisScriptName; ?>" method="post" enctype="multipart/form-data">	
+
+					<form action="<?php echo $thisScriptName; ?>" method="post" enctype="multipart/form-data">
 						<div class="form-group">
 						    <label for="fileToUpload">Select image to upload:</label>
-						    <input type="file" name="fileToUpload" id="fileToUpload"> 
+						    <input type="file" name="fileToUpload" id="fileToUpload">
 						</div>
 
 						<br>
 						<button type="submit" class="btn btn-primary" name="upload">Upload!</button>
-					</form>	
+					</form>
 
 				<?php else :
 
-						echo $fld_profilePic; 
-		
+						echo $fld_profilePic;
+
 					 endif;?>
 
 			</div>
@@ -302,7 +302,7 @@ $errormsg = "";
 
 			<div class="col-sm-2 col-xs-6 pull-right text-right">
 
-				<button class="btn btn-info"><a href="./accountsettings" style="color:white; text-decoration:none;">Settings</a></button>
+				<button class="btn btn-info"><a href="./accountSettings" style="color:white; text-decoration:none;">Settings</a></button>
 
 			</div>
 
@@ -320,9 +320,9 @@ $errormsg = "";
 				      <th class="text-right">See other Climbers</th>
 				    </tr>
 
-				    <?php 
+				    <?php
 
-						for ($i=0; $i < $gymUserStateNum; $i++) { 
+						for ($i=0; $i < $gymUserStateNum; $i++) {
 							echo '<tr>
 							        <td>'.$gymArray[$i]['gymName'].'</td>
 							        <td class="text-center">'.$gymArray[$i]['visits'].'</td>
@@ -345,10 +345,10 @@ $errormsg = "";
 		<div class="row">
 
 			<div class="col-sm-6">
-	
+
 				<?php if ($referralCode == "") : ?>
 
-					<form action="<?php echo $thisScriptName; ?>" method="post" enctype="multipart/form-data">	
+					<form action="<?php echo $thisScriptName; ?>" method="post" enctype="multipart/form-data">
 						<h3>Need a Referral Code?</h3>
 						<p>Refer a friend and you both get a discount on your next pass!</p>
 						<button type="submit" class="btn btn-primary" name="referral">Click Here!</button>
@@ -369,7 +369,7 @@ $errormsg = "";
 
 	</div>
 
-	
+
 <?php 	// Updating Profession
 
 	// Checking to see if user has submitted a job selectino
@@ -391,15 +391,15 @@ $errormsg = "";
 			// echo '<script type="text/javascript"> window.location="www.therockpass.com/account"; </script>';
 
 		} else {
-        	$errormsg = "Sorry something went wrong with updating your job, please refresh page and try again."; 
+        	$errormsg = "Sorry something went wrong with updating your job, please refresh page and try again.";
 			echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 	          			'.$errormsg.'
 	          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-					</div>'; 
+					</div>';
         }
-        
+
 	}
 
 	$fld_job = '<select name="job" class="form-control" required>
@@ -413,7 +413,7 @@ $errormsg = "";
  ?>
 
 <!-- Place to update job if currently blank -->
-<?php if ($userRow['job'] == "") : ?> 
+<?php if ($userRow['job'] == "") : ?>
 
 	<div class="container">
 
@@ -448,11 +448,11 @@ $errormsg = "";
  // If a time can be set, have it run at 3am EST.  That way it is also in the middle of the night for all US users (AJAX/JSON/jQuery??)
 
 	// Checking matches table for matches where current user is either the primary or matched user
-		$matchLastUpdate_sql = mysql_query("SELECT DAY( lastUpdate ) AS DAY, 
-											   	   MONTH( lastUpdate ) AS MONTH, 
+		$matchLastUpdate_sql = mysql_query("SELECT DAY( lastUpdate ) AS DAY,
+											   	   MONTH( lastUpdate ) AS MONTH,
 											   	   YEAR( lastUpdate ) AS YEAR
-											FROM matches 
-											WHERE primaryUserID='$userID' 
+											FROM matches
+											WHERE primaryUserID='$userID'
 											LIMIT 1");
 		$matchLastUpdate_array = mysql_fetch_array($matchLastUpdate_sql);
 		$matchLastUpdate = $matchLastUpdate_array['DAY'].$matchLastUpdate_array['MONTH'].$matchLastUpdate_array['YEAR'];
@@ -487,7 +487,7 @@ $errormsg = "";
 
 			// Cycling through other users in current users state to determine matches
 			$y = 0;
-			for ($i=0; $i < $totalUserCount; $i++) { 
+			for ($i=0; $i < $totalUserCount; $i++) {
 
 				$rating = 0; // Starting off with a rating of 0, build points as script runs
 
@@ -516,7 +516,7 @@ $errormsg = "";
 
 					// Top Roping
 					if ($potentialData['topRopingLvl']>=$TRLow && $potentialData['topRopingLvl']<=$TRHigh) {
-						// They are a top roping match 
+						// They are a top roping match
 						$TRMatch = 1;
 
 						if ($potentialData['topRopingLvl'] == $userData['topRopingLvl']) {
@@ -528,7 +528,7 @@ $errormsg = "";
 						// They are not top roping matches
 						$TRMatch = 0;
 					}
-					
+
 					// Bouldering
 					if ($potentialData['boulderingLvl']>=$BLDLow && $potentialData['boulderingLvl']<=$BLDHigh) {
 						// They are a bouldering match
@@ -593,10 +593,10 @@ $errormsg = "";
 													  AND u2.UserID = $ID");
 
 					$hobbieMatch = $rockClimbing + $iceClimbing + $hiking + $camping;
-					  
 
-				// Summing scores for match rating. 0-10, 10 being the best. 
-				// Only matching based on climbing preferences.  Hobbie match data is store and used as additional info to display	
+
+				// Summing scores for match rating. 0-10, 10 being the best.
+				// Only matching based on climbing preferences.  Hobbie match data is store and used as additional info to display
 					$rating = $styleMatch + $TRMatch + $boulderMatch + $leadMatch + $gymMatch;
 
 				// Checking whether the match is a good match
@@ -608,7 +608,7 @@ $errormsg = "";
 						$matchArray[$y]['username'] = $potentialMatch['username'];
 						$matchArray[$y]['fName'] = $potentialMatch['fName'];
 						$matchArray[$y]['lName'] = $potentialMatch['lName'];
-						$matchArray[$y]['hobbieMatch'] = $hobbieMatch; 
+						$matchArray[$y]['hobbieMatch'] = $hobbieMatch;
 						$matchArray[$y]['styleMatch'] = $styleMatch;
 						$matchArray[$y]['boulderMatch'] = $boulderMatch;
 						$matchArray[$y]['TRMatch'] = $TRMatch;
@@ -619,16 +619,16 @@ $errormsg = "";
 						$y = $y + 1;
 					}
 
-					
+
 
 			}  // End of for loop, $y number of matches identified //
 
 			// Checking to see if any matches were found
 			if ($y != 0) {
 				// Matches were found
-			
+
 				// For loop to loop through as many matches as were found
-				for ($i=0; $i < $y; $i++) { 
+				for ($i=0; $i < $y; $i++) {
 
 					// Checking how many rows are in the matches table
 					// Need to do this each loop as the table will be updated each loop
@@ -656,13 +656,13 @@ $errormsg = "";
 
 					 	} else {
 
-					 		$errormsg = "Oops! Something went wrong. Please refresh the page."; 
+					 		$errormsg = "Oops! Something went wrong. Please refresh the page.";
 							echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 					          			'.$errormsg.'
 					          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
-									</div>'; 
+									</div>';
 							echo " (".__LINE__.")";
 
 					 	}
@@ -671,8 +671,8 @@ $errormsg = "";
 						// There are already rows in the matches table to check
 
 						// For loop to loop through all rows in matches table
-						for ($x=0; $x < $matches_num; $x++) { 
-							
+						for ($x=0; $x < $matches_num; $x++) {
+
 							// Pulling match table row
 							$match_row_sql = mysql_query("SELECT * FROM matches LIMIT 1 OFFSET $x");
 							$match_row = mysql_fetch_array($match_row_sql);
@@ -705,13 +705,13 @@ $errormsg = "";
 
 							 	} else {
 
-							 		$errormsg = "Oops! Something went wrong. Please refresh the page."; 
+							 		$errormsg = "Oops! Something went wrong. Please refresh the page.";
 									echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 							          			'.$errormsg.'
 							          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 													<span aria-hidden="true">&times;</span>
 												</button>
-											</div>'; 
+											</div>';
 									echo " (".__LINE__.")";
 
 							 	}
@@ -742,13 +742,13 @@ $errormsg = "";
 
 							 	} else {
 
-							 		$errormsg = "Oops! Something went wrong. Please refresh the page."; 
+							 		$errormsg = "Oops! Something went wrong. Please refresh the page.";
 									echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 							          			'.$errormsg.'
 							          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 													<span aria-hidden="true">&times;</span>
 												</button>
-											</div>'; 
+											</div>';
 									echo " (".__LINE__.")";
 
 							 	}
@@ -756,7 +756,7 @@ $errormsg = "";
 							}
 
 						} // End of for loop for checking all rows in the matches table
-					
+
 					} // end of else from if statement checking for any rows in matches table
 
 				} // End of the for loop for checking all the matches and entering or updating them in the matches table
@@ -780,7 +780,7 @@ $errormsg = "";
 
 				if ($matchCheck_num != 0) {
 					// Cycling through all the entries where the current user is the primaryUserID
-						for ($i=0; $i < $matchCheck_num; $i++) { 
+						for ($i=0; $i < $matchCheck_num; $i++) {
 
 							// Grabbing info from matches table 1 row at a time
 							$matchInfo = mysql_query("SELECT * FROM matches WHERE primaryUserID='$userID' LIMIT 1 OFFSET $i");
@@ -812,7 +812,7 @@ $errormsg = "";
 					// Cycling through all the enteries where the current user is the matchedUserID and adding it to the matchArray
 						// Verifying there are matches where the user is the matchedID
 						if ($matchCheck2_num =! 0) {
-							for ($i=$matchCheck2_num; $i < $totalMatches; $i++) { 
+							for ($i=$matchCheck2_num; $i < $totalMatches; $i++) {
 
 								// Grabbing info from matches table 1 row at a time
 								$matchInfo = mysql_query("SELECT * FROM matches WHERE matchedUserID='$userID' LIMIT 1 OFFSET $i");
@@ -845,7 +845,7 @@ $errormsg = "";
 
 				} else {
 					// Cycling through all the enteries where the current user is the matchedUserID and adding it to the matchArray
-						for ($i=0; $i < $matchCheck2_num; $i++) { 
+						for ($i=0; $i < $matchCheck2_num; $i++) {
 
 							// Grabbing info from matches table 1 row at a time
 							$matchInfo = mysql_query("SELECT * FROM matches WHERE matchedUserID='$userID' LIMIT 1 OFFSET $i");
@@ -885,11 +885,11 @@ $errormsg = "";
 
 		<div class="row">
 
-		<?php 
+		<?php
 
 			// Displaying matches profile pictures
 			// SHould also display the characterisitcis that make them a good match (ie style, level, gym)
-			for ($i=0; $i < $totalMatches; $i++) { 
+			for ($i=0; $i < $totalMatches; $i++) {
 
 				$matchfName = $matchArray[$i]['fName'];
 				$matchlName = $matchArray[$i]['lName'];
@@ -898,7 +898,7 @@ $errormsg = "";
 
 				// Checking if user has a profile pic uploaded
 				if ($matchArray[$i]['profilePic'] != "") {
-					
+
 					echo '	<div class="col-sm-1">
 								<form action="profile.php" method="GET" name="profile">
 									<img src="'.$matchArray[$i]['profilePic'].'" class="img-circle img-responsive" alt="Responsive image" id="matchPic">
