@@ -551,7 +551,7 @@ $errormsg = "";
 		<br>
 		<ul class="nav nav-pills" role="tablist">
 			<li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
-			<li role="presentation"><a href="#profilePic" aria-controls="profilePic" role="tab" data-toggle="tab">Profile Picture</a></li>
+			<!-- <li role="presentation"><a href="#profilePic" aria-controls="profilePic" role="tab" data-toggle="tab">Profile Picture</a></li> -->
 			<li role="presentation"><a href="#climbingStats" aria-controls="climbingStats" role="tab" data-toggle="tab">Climbing Stats</a></li>
 			<li role="presentation"><a href="#hobbies" aria-controls="hobbies" role="tab" data-toggle="tab">Hobbies</a></li>
 			<li><a href="./account">Back to Account</a></li>

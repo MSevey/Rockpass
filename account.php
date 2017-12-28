@@ -317,7 +317,7 @@ $errormsg = "";
 				    <tr>
 				      <th>Gym</th>
 				      <th class="text-center"># Visits</th>
-				      <th class="text-right">See other Climbers</th>
+				      <!-- <th class="text-right">See other Climbers</th> -->
 				    </tr>
 
 				    <?php
@@ -326,8 +326,12 @@ $errormsg = "";
 							echo '<tr>
 							        <td>'.$gymArray[$i]['gymName'].'</td>
 							        <td class="text-center">'.$gymArray[$i]['visits'].'</td>
-							        <td class="text-right">Link to gyms page</td>
 							      </tr>';
+							// echo '<tr>
+							//         <td>'.$gymArray[$i]['gymName'].'</td>
+							//         <td class="text-center">'.$gymArray[$i]['visits'].'</td>
+							//         <td class="text-right">Link to gyms page</td>
+							//       </tr>';
 						}
 
 				    ?>
