@@ -59,7 +59,7 @@ if (isset($_POST["emailPass"])) {
       //Checks to make sure update statement worked.
       if (mysql_query($passes_SQLUpdate)) {
 
-        $to = "mjsevey@gmail.com";
+        $to = $userRow['email'];
         $subject = "Your Rock Pass";
         $message = "
         <html>
@@ -87,7 +87,7 @@ if (isset($_POST["emailPass"])) {
         $headers = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
         $headers .= 'From: <passes@therockpass.com>' . "\r\n";
-        $headers .= 'Cc: matt@therockpass.com' . "\r\n";
+        // $headers .= 'Cc: matt@therockpass.com' . "\r\n";
 
         if (mail($to,$subject,$message,$headers)) {
           $errormsg = "Your pass is in your inbox!";
@@ -98,7 +98,8 @@ if (isset($_POST["emailPass"])) {
                     </button>
                   </div>';
         } else {
-          $errormsg = "Oops there seems to be a problem.  The Email did not send.";
+          // $errormsg = "Oops there seems to be a problem.  The Email did not send.";
+          $errormsg = "This site is no longer active so emails are not being sent.";
           echo '  <div class="alert alert-dismissable alert-danger text-center" role="alert">
                     '.$errormsg.'
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">

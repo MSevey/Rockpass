@@ -418,9 +418,9 @@ $errormsg = "";
 // Input fields for Climbing Stats
 	$fld_preferedStyle =   '<select name="preferedStyle" class="form-control" required>
 					            <option value="'.$preferedStyle.'">'.$preferedStyle.'</option>
-								<option value="bouldering">Bouldering</option>
-					            <option value="topRoping">Top Roping</option>
-					            <option value="leading">Lead Climbing</option>
+								<option value="Bouldering">Bouldering</option>
+					            <option value="Top Roping">Top Roping</option>
+					            <option value="Lead Climbing">Lead Climbing</option>
 					        </select>';
 	$fld_boulderinglvl =   '<select name="boulderinglvl" class="form-control" required>
 					            <option value="'.$boulderinglvl.'">'.$boulderinglvl.'</option>
@@ -452,7 +452,7 @@ $errormsg = "";
 								<option value="7">5.7</option>
 								<option value="8">5.8</option>
 								<option value="9">5.9</option>
-								<option value="10">5.10a</option>
+								<option value="10a">5.10a</option>
 								<option value="11">5.10b</option>
 								<option value="12">5.10c</option>
 								<option value="13">5.10d</option>
@@ -473,6 +473,9 @@ $errormsg = "";
 								<option value="28">5.14c</option>
 								<option value="29">5.14d</option>
 								<option value="30">5.15a</option>
+								<option value="31">5.15b</option>
+								<option value="32">5.15c</option>
+								<option value="33">5.15d</option>
 					        </select>';
 	$fld_leadinglvl =	   '<select name="leadinglvl" class="form-control" required>
 					            <option value="'.$leadinglvl.'">'.$leadinglvl.'</option>
@@ -486,7 +489,7 @@ $errormsg = "";
 								<option value="7">5.7</option>
 								<option value="8">5.8</option>
 								<option value="9">5.9</option>
-								<option value="10">5.10a</option>
+								<option value="10a">5.10a</option>
 								<option value="11">5.10b</option>
 								<option value="12">5.10c</option>
 								<option value="13">5.10d</option>
@@ -507,6 +510,9 @@ $errormsg = "";
 								<option value="28">5.14c</option>
 								<option value="29">5.14d</option>
 								<option value="30">5.15a</option>
+								<option value="31">5.15b</option>
+								<option value="32">5.15c</option>
+								<option value="33">5.15d</option>
 					        </select>';
 	$fld_yearClimbing =    '<input type="text" class="form-control" value="'.$yearsClimbing.'" name="yearsClimbing" id="yearsClimbing"/>';
 
@@ -649,6 +655,7 @@ $errormsg = "";
 
 						<div class="form-group">
 							<label for="boulderinglvl">Bouldering Level</label>
+							<?php echo $userData['boulderingLvl']; ?>
 							<?php echo $fld_boulderinglvl; ?>
 						</div>
 

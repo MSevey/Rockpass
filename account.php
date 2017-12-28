@@ -601,7 +601,7 @@ $errormsg = "";
 
 				// Checking whether the match is a good match
 					if ($rating >= 5) {
-						// Creatin match array with matched user ID, profile Pic, and what they matched on
+						// Creating match array with matched user ID, profile Pic, and what they matched on
 						// Uing $y as array counter instead of $y as not all users will be matches so there would have been gaps in the incrementing of $i
 						$matchArray[$y]['matchID'] = $ID; //matches users ID not current users ID
 						$matchArray[$y]['profilePic'] = $potentialMatch['profilePic'];

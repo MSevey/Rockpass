@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 /*********************************************
   STATUS OF PAGE
- 
+
   Working
   This page will eventually change to be where people can purchase passes
 
@@ -23,32 +23,32 @@ include("./chooseHeader.php");
 $thisScriptName = "reloadPasses";
 
 // sets error message to an empty highlight_string(str)
-$errormsg = ""; 
+$errormsg = "";
 
 
 if(isset($_POST["reloadPasses"])) {
 
   if($passNumRows == 0) {
 
-    for ($i=0; $i < 10; $i++) { 
+    for ($i=0; $i < 10; $i++) {
 
       $passes_SQLinsert = "INSERT INTO passes (userID) VALUES ($userID)";
 
-      if (mysql_query($passes_SQLinsert)) {        
-        
+      if (mysql_query($passes_SQLinsert)) {
+
 
       } else {
-        $errormsg = "Oops! Something went wrong. Please reload the page and try again."; 
+        $errormsg = "Oops! Something went wrong. Please reload the page and try again.";
         echo '  <div class="alert alert-dismissable alert-danger text-center" role="alert">
                   '.$errormsg.'
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
-                </div>'; 
+                </div>';
 
         echo "<br>";
         echo $i;
-        
+
       }
 
     }
@@ -69,33 +69,34 @@ if(isset($_POST["reloadPasses"])) {
 
     } else {
 
-      $errormsg = "Oops, something went Wrong and did not update right.  Try Reloading the page."; 
+      $errormsg = "Oops, something went Wrong and did not update right.  Try Reloading the page.";
       echo '  <div class="alert alert-dismissable alert-danger text-center" role="alert">
                 '.$errormsg.'
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
-              </div>'; 
+              </div>';
 
     }
 
   } else {
 
-    $errormsg = "It looks like you have passes still.  Are you sure you want to buy more?"; 
+    // $errormsg = "It looks like you have passes still.  Are you sure you want to buy more?";
+    $errormsg = "It looks like you have passes still.  Please use your current passes before you buy more?";
     echo '  <div class="alert alert-dismissable alert-warning text-center" role="alert">
               '.$errormsg.'
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
-            </div>'; 
+            </div>';
 
   }
-    
+
 } else {}
 
 
 ?>
-    
+
   <div class="container">
 
     <div class="jumbotron">
@@ -106,20 +107,20 @@ if(isset($_POST["reloadPasses"])) {
 
       <div class="row">
         <form action="<?php echo $thisScriptName; ?>" method="post">
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="referralCode">Referral Code?</label>
             <input type="text" class="form-control" value="referralCode" name="referralCode"/>
           </div>
 
           <div class="checkbox">
             <label><input type="checkbox" name="accessFund" value="Yes"> Donate $1 to the Access Fund?</label>
-          </div>
+          </div> -->
 
           <button type="submit" class="btn btn-primary btn-lg center-block" name="reloadPasses" id="reloadPasses">
             Reload Passes
           </button>
-        </form>  
-      </div> 
+        </form>
+      </div>
 
 
     </div>

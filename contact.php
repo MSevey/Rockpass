@@ -1,10 +1,10 @@
-<?php 
+<?php
 
 //************************************************
 //
 //	STATUS OF PAGE
-//	
-//		
+//
+//
 //
 //************************************************
 
@@ -13,26 +13,27 @@
 //Contains connectDB.php and decides which header to display
 //Also contains session_start(), $userRow and $password which are the users info from the users table and their last entry in the passes table
 include("./chooseHeader.php");
-	
+
 
 //Identifying Script name to run when contact button is clicked
 $thisScriptName = "contact";
 
 // sets error message to an empty highlight_string(str)
-$errormsg = ""; 
- 
+$errormsg = "";
+
 
 //Setting the to email
-$adminEmail = "matt@therockpass.com";
+// $adminEmail = "matt@therockpass.com";
+$adminEmail = "";
 
 //Showing User what their current information is, or leaving it blank for someone not signed in.
 if ($session) {
-	
+
 	$contactName = "".$userRow['fName']." ".$userRow['lName']."";
 	$email = $userRow['email'];
 
 } else {
-	
+
 	$contactName = "";
 	$email = "";
 
@@ -43,7 +44,7 @@ $message = "";
 
 if (isset($_POST["contact"])) {
 	unset($_POST["contact"]);
-	
+
 	//Grabbing info
 	$contactName = mysql_real_escape_string(@$_POST["contactName"]);
 	$email = mysql_real_escape_string(@$_POST["email"]);
@@ -64,24 +65,24 @@ if (isset($_POST["contact"])) {
 		if (mail($to, $subject, $message, $headers)) {
 
 			$sent = "Yes";
-			
+
 			//Inserting email info into database
 			$email_SQLinsert = "INSERT INTO email (";
-			$email_SQLinsert .= "fromName, ";	
-			$email_SQLinsert .= "fromEmail, ";	
+			$email_SQLinsert .= "fromName, ";
+			$email_SQLinsert .= "fromEmail, ";
 			$email_SQLinsert .= "subject, ";
-			$email_SQLinsert .= "message, ";	
-			$email_SQLinsert .= "toEmail, ";	
-			$email_SQLinsert .= "sent ) ";	
+			$email_SQLinsert .= "message, ";
+			$email_SQLinsert .= "toEmail, ";
+			$email_SQLinsert .= "sent ) ";
 
-			$email_SQLinsert .= "VALUES (";	
+			$email_SQLinsert .= "VALUES (";
 			$email_SQLinsert .= "'".$contactName."', ";
 			$email_SQLinsert .= "'".$email."', ";
 			$email_SQLinsert .= "'".$subject."', ";
 			$email_SQLinsert .= "'".$message."', ";
 			$email_SQLinsert .= "'".$to."', ";
 			$email_SQLinsert .= "'".$sent."' ) ";
-			
+
 			if (mysql_query($email_SQLinsert)) {
 
 				//Displays Success message
@@ -93,7 +94,7 @@ if (isset($_POST["contact"])) {
 						</div>';
 
 				exit();
-				
+
 			} else {
 
 				$errormsg = "Oops, something went wrong.  Please reload the page and try again.";
@@ -102,7 +103,7 @@ if (isset($_POST["contact"])) {
 			      			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
-						</div>'; 
+						</div>';
 
 			}
 
@@ -114,10 +115,10 @@ if (isset($_POST["contact"])) {
 		      			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-					</div>'; 
+					</div>';
 
 		}
-		
+
 
 
 	} else {
@@ -128,7 +129,7 @@ if (isset($_POST["contact"])) {
 	      			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-				</div>'; 
+				</div>';
 
 	}
 
@@ -140,21 +141,22 @@ if (isset($_POST["contact"])) {
 	$fld_email = '<input type="text" class="form-control" value="'.$email.'"  name="email" id="email" maxlength="50" placeholder="Email" required />';
 	$fld_subject = '<input type="text" class="form-control" value="'.$subject.'"  name="subject" id="subject" maxlength="50" placeholder="Subject" required />';
 	$fld_message = '<textarea type="textarea" class="form-control" value="'.$message.'"  name="message" id="message" rows="7" maxlength="500" placeholder="Message"></textarea>';
-	
-											
+
+
 ?>
 
 
 <!-- User Input Form -->
 <div class="container">
 
- 	
-	<form action="<?php echo $thisScriptName; ?>" method="post">
-		
-			<h3>Contact Us</h3>
-   			<p>Need to reach out about something? Send us a message!</p>
 
-			<div class="form-group">
+	<form action="<?php echo $thisScriptName; ?>" method="post">
+
+			<h3>Contact Us</h3>
+   			<!-- <p>Need to reach out about something? Send us a message!</p> -->
+   			<p>This site is not supported anymore.</p>
+
+			<!-- <div class="form-group">
 				<label for="contactName">Name</label>
 				<?php echo $fld_contactName; ?>
 			</div>
@@ -176,12 +178,12 @@ if (isset($_POST["contact"])) {
 
 
 			<br>
-			<button type="submit" class="btn btn-primary" name="contact">Contact Us!</button>	
+			<button type="submit" class="btn btn-primary" name="contact">Contact Us!</button> -->
 
 	</form>
 
-</div>	
-					
+</div>
+
 
 
 <?php include("./footer.php"); ?>

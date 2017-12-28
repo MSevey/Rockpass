@@ -1,14 +1,14 @@
-<?php 
+<?php
 
 //***********************************************************************
 //
 //  STATUS OF PAGE
-// 
+//
 //  1) Need to make all links fit in one drop down on the right of the navber.  Should be a 3 bar icon if possible.  Otherwise just "username"
 //
 //************************************************************************
 
- 
+
 
 ob_start();
 
@@ -24,7 +24,7 @@ include("./inc/connectDB.php");
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -43,7 +43,7 @@ include("./inc/connectDB.php");
 
     <!-- My Code Files -->
     <link rel="stylesheet" type="text/css" href="./css/myCSS.css">
-    
+
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -55,7 +55,7 @@ include("./inc/connectDB.php");
   </head>
 
   <body>
-    
+
     <!-- This is the navbar that is fixed to the top of the Screen -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
 
@@ -82,8 +82,8 @@ include("./inc/connectDB.php");
 
 
       <div id="menu" class="list-group col-md-3">
-         
-        <a href="./account" class="list-group-item"><?php echo $username; ?></a>   
+
+        <a href="./account" class="list-group-item"><?php echo $username; ?></a>
         <a href="./passesRedirect" class="list-group-item">Passes<span class="badge"><?php echo $passNumRows; ?></span></a>
         <a href="./reloadPasses" class="list-group-item">Buy more Passes</a>
         <a href="./gyms" class="list-group-item">Gyms</a>
@@ -92,8 +92,6 @@ include("./inc/connectDB.php");
         <a href="./inc/logout" class="list-group-item">Log Out</a>
         <a href="./admin" class="list-group-item">Admin</a>
         <a href="./addGym" class="list-group-item">Add Gym</a>
-        <a href="./test/test" class="list-group-item">test page</a>
-        
+        <!-- <a href="./test/test" class="list-group-item">test page</a> -->
+
       </div>
-
-
