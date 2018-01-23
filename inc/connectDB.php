@@ -43,7 +43,7 @@
 
 	if ($dbConnected) {
 		//If the database is successfully connected, we make sure we can select the DB
-		$dbSelected = mysqli_select_db($db['database'],$dbConnected);
+		$dbSelected = mysqli_select_db($dbConnected,$db['database']);
 
 		//This then checks to make sure we were able to select the DB
 		if ($dbSelected) {
