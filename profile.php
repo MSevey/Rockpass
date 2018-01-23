@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /************************************************
 	STATUS OF PAGE
@@ -20,7 +20,7 @@ include("./chooseHeader.php");
 $thisScriptName = "userProfile.php";
 
 // sets error message to an empty highlight_string(str)
-$errormsg = ""; 
+$errormsg = "";
 
 // Checking if username was submitted from profile form
 	if (isset($_GET['username'])) {
@@ -30,7 +30,7 @@ $errormsg = "";
 
 			if ($userCheck == $username) {
 				// Header is for localhost.  Does not work on live website
-				header("location: account");	
+				header("location: account");
 
 				// Javascript is for live website.  Does not work on localhost
 				// echo '<script type="text/javascript"> window.location="www.therockpass.com/account"; </script>';
@@ -39,35 +39,35 @@ $errormsg = "";
 
 		// Reasigning values to username
 			$username = $_GET['username'];
-			$userquery = mysql_query("SELECT * FROM users WHERE username='$username'");
+			$userquery = mysqli_query($dbConnected, "SELECT * FROM users WHERE username='$username'");
 
 		// Making sure there is only one entry in the users table for the username
-			if (mysql_num_rows($userquery) != 1) {
-				$errormsg = "This user could not be found."; 
+			if (mysqli_num_rows($userquery) != 1) {
+				$errormsg = "This user could not be found.";
 				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 		          			'.$errormsg.'
 		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
-						</div>'; 
+						</div>';
 			}
-		// Grabbing users info	
-			$userRow = mysql_fetch_array($userquery);
+		// Grabbing users info
+			$userRow = mysqli_fetch_array($userquery);
 			$fName = $userRow['fName'];
 			$lName = $userRow['lName'];
 			$userID = $userRow['ID'];
 			$dbusername = $userRow['username'];
-		
+
 		// Double check that the username submitted from the form is the username in the users table
 			if ($username != $dbusername) {
-				$errormsg = "Usernames do not match."; 
+				$errormsg = "Usernames do not match.";
 				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 		          			'.$errormsg.'
 		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
-						</div>'; 				
-			} 
+						</div>';
+			}
 
 	} else {
 		die("No username is selected");
@@ -83,26 +83,26 @@ $errormsg = "";
 	$referralCode = $userRow['referralCode'];
 
 // Determining total number of climbs, ie passes used
-	$totalClimbsInfo = mysql_query("SELECT * FROM passes WHERE userID='$userID' and emailSent IS NOT NULL");
-	$totalClimbs = mysql_num_rows($totalClimbsInfo);
+	$totalClimbsInfo = mysqli_query($dbConnected, "SELECT * FROM passes WHERE userID='$userID' and emailSent IS NOT NULL");
+	$totalClimbs = mysqli_num_rows($totalClimbsInfo);
 
 // Identifying gym in area
 // Determining passes used per gym then identifying top visited gym and calculating te percent of visits to that gym
 	$userState = $userRow['state'];
 
-	$gymUserState = mysql_query("SELECT * FROM gyms WHERE state='$userState'");
-	$gymUserStateNum = mysql_num_rows($gymUserState);
+	$gymUserState = mysqli_query($dbConnected, "SELECT * FROM gyms WHERE state='$userState'");
+	$gymUserStateNum = mysqli_num_rows($gymUserState);
 
 
-	for ($i=0; $i < $gymUserStateNum; $i++) { 
+	for ($i=0; $i < $gymUserStateNum; $i++) {
 
-	  $gymInfo = mysql_query("SELECT * FROM gyms WHERE state='$userState' LIMIT 1 OFFSET $i");
-	  $gym = mysql_fetch_array($gymInfo);
+	  $gymInfo = mysqli_query($dbConnected, "SELECT * FROM gyms WHERE state='$userState' LIMIT 1 OFFSET $i");
+	  $gym = mysqli_fetch_array($gymInfo);
 
 	  $gymName = $gym['shortName'];
 
-	  $gymPassesInfo = mysql_query("SELECT * FROM passes WHERE (userID='$userID' AND rockGym='$gymName')");
-	  $gymPasses = mysql_num_rows($gymPassesInfo);
+	  $gymPassesInfo = mysqli_query($dbConnected, "SELECT * FROM passes WHERE (userID='$userID' AND rockGym='$gymName')");
+	  $gymPasses = mysqli_num_rows($gymPassesInfo);
 
 	  // Gym Array is alphbetical by gym name and contains gymName and visits
 	  $gymArray[$i]['gymName'] = $gym['gymName'];
@@ -122,14 +122,14 @@ $errormsg = "";
 
 			<div class="col-sm-2 col-xs-6 pull-left">
 
-				<?php if ($profilePic == "") : 
+				<?php if ($profilePic == "") :
 
 						echo $fld_noProfilePic;
 
 					 else :
 
-						echo $fld_profilePic; 
-		
+						echo $fld_profilePic;
+
 					 endif;?>
 
 			</div>
@@ -154,9 +154,9 @@ $errormsg = "";
 				      <th class="text-right">See other Climbers</th>
 				    </tr>
 
-				    <?php 
+				    <?php
 
-						for ($i=0; $i < $gymUserStateNum; $i++) { 
+						for ($i=0; $i < $gymUserStateNum; $i++) {
 							echo '<tr>
 							        <td>'.$gymArray[$i]['gymName'].'</td>
 							        <td class="text-center">'.$gymArray[$i]['visits'].'</td>
@@ -174,14 +174,14 @@ $errormsg = "";
 
 	</div> <!-- container div -->
 
-<?php 	
+<?php
 
 // Checking matches table for matches where current user is either the primary or matched user
-	$matchCheck = mysql_query("SELECT * FROM matches WHERE primaryUserID='$userID'");
-	$matchCheck_num = mysql_num_rows($matchCheck);
+	$matchCheck = mysqli_query($dbConnected, "SELECT * FROM matches WHERE primaryUserID='$userID'");
+	$matchCheck_num = mysqli_num_rows($matchCheck);
 
-	$matchCheck2 = mysql_query("SELECT * FROM matches WHERE matchedUserID='$userID'");
-	$matchCheck2_num = mysql_num_rows($matchCheck2);
+	$matchCheck2 = mysqli_query($dbConnected, "SELECT * FROM matches WHERE matchedUserID='$userID'");
+	$matchCheck2_num = mysqli_num_rows($matchCheck2);
 
 	$totalMatches = $matchCheck_num + $matchCheck2_num;
 
@@ -190,18 +190,18 @@ $errormsg = "";
 
 	if ($matchCheck_num != 0) {
 		// Cycling through all the entries where the current user is the primaryUserID
-			for ($i=0; $i < $matchCheck_num; $i++) { 
+			for ($i=0; $i < $matchCheck_num; $i++) {
 
 				// Grabbing info from matches table 1 row at a time
-				$matchInfo = mysql_query("SELECT * FROM matches WHERE primaryUserID='$userID' LIMIT 1 OFFSET $i");
-				$match = mysql_fetch_array($matchInfo);
+				$matchInfo = mysqli_query($dbConnected, "SELECT * FROM matches WHERE primaryUserID='$userID' LIMIT 1 OFFSET $i");
+				$match = mysqli_fetch_array($matchInfo);
 
 				// Grabbing the matched users ID
 				$matchID = $match['matchedUserID'];
 
 				// Grabbing the matched users info from the users table
-				$matchUserInfo = mysql_query("SELECT * FROM users WHERE ID='$matchID'");
-				$matchUser = mysql_fetch_array($matchUserInfo);
+				$matchUserInfo = mysqli_query($dbConnected, "SELECT * FROM users WHERE ID='$matchID'");
+				$matchUser = mysqli_fetch_array($matchUserInfo);
 
 				// Creatin match array with matched user ID, profile Pic, and what they matched on
 				$matchArray[$i]['matchID'] = $matchID;
@@ -219,22 +219,22 @@ $errormsg = "";
 
 			}
 
-		// Cycling through all the enteries where the current user is the matchedUserID and adding it to the matchArray 
+		// Cycling through all the enteries where the current user is the matchedUserID and adding it to the matchArray
 			// Verifying there are matches where the user is the matchedID
 			if ($matchCheck2_num =! 0) {
-				
-				for ($i=$matchCheck2_num; $i < $totalMatches; $i++) { 
+
+				for ($i=$matchCheck2_num; $i < $totalMatches; $i++) {
 
 					// Grabbing info from matches table 1 row at a time
-					$matchInfo = mysql_query("SELECT * FROM matches WHERE matchedUserID='$userID' LIMIT 1 OFFSET $i");
-					$match = mysql_fetch_array($matchInfo);
+					$matchInfo = mysqli_query($dbConnected, "SELECT * FROM matches WHERE matchedUserID='$userID' LIMIT 1 OFFSET $i");
+					$match = mysqli_fetch_array($matchInfo);
 
 					// Grabbing the matched users ID
 					$matchID = $match['primaryUserID'];
 
 					// Grabbing the matched users info from the users table
-					$matchUserInfo = mysql_query("SELECT * FROM users WHERE ID='$matchID'");
-					$matchUser = mysql_fetch_array($matchUserInfo);
+					$matchUserInfo = mysqli_query($dbConnected, "SELECT * FROM users WHERE ID='$matchID'");
+					$matchUser = mysqli_fetch_array($matchUserInfo);
 
 					// Creatin match array with matched user ID, profile Pic, and what they matched on
 					$matchArray[$i]['matchID'] = $matchID;
@@ -256,18 +256,18 @@ $errormsg = "";
 
 	} else {
 		// Cycling through all the enteries where the current user is the matchedUserID and adding it to the matchArray
-			for ($i=0; $i < $matchCheck2_num; $i++) { 
+			for ($i=0; $i < $matchCheck2_num; $i++) {
 
 				// Grabbing info from matches table 1 row at a time
-				$matchInfo = mysql_query("SELECT * FROM matches WHERE matchedUserID='$userID' LIMIT 1 OFFSET $i");
-				$match = mysql_fetch_array($matchInfo);
+				$matchInfo = mysqli_query($dbConnected, "SELECT * FROM matches WHERE matchedUserID='$userID' LIMIT 1 OFFSET $i");
+				$match = mysqli_fetch_array($matchInfo);
 
 				// Grabbing the matched users ID
 				$matchID = $match['primaryUserID'];
 
 				// Grabbing the matched users info from the users table
-				$matchUserInfo = mysql_query("SELECT * FROM users WHERE ID='$matchID'");
-				$matchUser = mysql_fetch_array($matchUserInfo);
+				$matchUserInfo = mysqli_query($dbConnected, "SELECT * FROM users WHERE ID='$matchID'");
+				$matchUser = mysqli_fetch_array($matchUserInfo);
 
 				// Creatin match array with matched user ID, profile Pic, and what they matched on
 				$matchArray[$i]['matchID'] = $matchID;
@@ -288,18 +288,18 @@ $errormsg = "";
 	}
 
 	// Cycling through all the entries where the current user is the primaryUserID
-		for ($i=0; $i < $matchCheck_num; $i++) { 
+		for ($i=0; $i < $matchCheck_num; $i++) {
 
 			// Grabbing info from matches table 1 row at a time
-			$matchInfo = mysql_query("SELECT * FROM matches WHERE primaryUserID='$userID' LIMIT 1 OFFSET $i");
-			$match = mysql_fetch_array($matchInfo);
+			$matchInfo = mysqli_query($dbConnected, "SELECT * FROM matches WHERE primaryUserID='$userID' LIMIT 1 OFFSET $i");
+			$match = mysqli_fetch_array($matchInfo);
 
 			// Grabbing the matched users ID
 			$matchID = $match['matchedUserID'];
 
 			// Grabbing the matched users info from the users table
-			$matchUserInfo = mysql_query("SELECT * FROM users WHERE ID='$matchID'");
-			$matchUser = mysql_fetch_array($matchUserInfo);
+			$matchUserInfo = mysqli_query($dbConnected, "SELECT * FROM users WHERE ID='$matchID'");
+			$matchUser = mysqli_fetch_array($matchUserInfo);
 
 			// Creatin match array with matched user ID, profile Pic, and what they matched on
 			$matchArray[$i]['matchID'] = $matchID;
@@ -315,18 +315,18 @@ $errormsg = "";
 		}
 
 	// Cycling through all the enteries where the current user is the matchedUserID and adding it to the matchArray
-		for ($i=$matchCheck2_num; $i < $totalMatches; $i++) { 
+		for ($i=$matchCheck2_num; $i < $totalMatches; $i++) {
 
 			// Grabbing info from matches table 1 row at a time
-			$matchInfo = mysql_query("SELECT * FROM matches WHERE matchedUserID='$userID' LIMIT 1 OFFSET $i");
-			$match = mysql_fetch_array($matchInfo);
+			$matchInfo = mysqli_query($dbConnected, "SELECT * FROM matches WHERE matchedUserID='$userID' LIMIT 1 OFFSET $i");
+			$match = mysqli_fetch_array($matchInfo);
 
 			// Grabbing the matched users ID
 			$matchID = $match['primaryUserID'];
 
 			// Grabbing the matched users info from the users table
-			$matchUserInfo = mysql_query("SELECT * FROM users WHERE ID='$matchID'");
-			$matchUser = mysql_fetch_array($matchUserInfo);
+			$matchUserInfo = mysqli_query($dbConnected, "SELECT * FROM users WHERE ID='$matchID'");
+			$matchUser = mysqli_fetch_array($matchUserInfo);
 
 			// Creatin match array with matched user ID, profile Pic, and what they matched on
 			$matchArray[$i]['matchID'] = $matchID;
@@ -349,13 +349,13 @@ $errormsg = "";
 
 		<div class="row">
 
-		<?php 
+		<?php
 			// Checking for matches
 				if ($totalMatches != 0) {
-					
+
 					// Displaying matches profile pictures
 					// SHould also display the characterisitcis that make them a good match (ie style, level, gym)
-					for ($i=0; $i < $totalMatches; $i++) { 
+					for ($i=0; $i < $totalMatches; $i++) {
 
 						$matchfName = $matchArray[$i]['fName'];
 						$matchlName = $matchArray[$i]['lName'];
@@ -364,7 +364,7 @@ $errormsg = "";
 
 						// Checking if user has a profile pic uploaded
 						if ($matchArray[$i]['profilePic'] != "") {
-					
+
 							echo '	<div class="col-sm-1">
 										<form action="profile.php" method="GET" name="profile">
 											<img src="'.$matchArray[$i]['profilePic'].'" class="img-circle img-responsive" alt="Responsive image" id="matchPic">

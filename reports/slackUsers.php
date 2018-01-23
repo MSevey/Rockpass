@@ -1,9 +1,9 @@
-<?php 
+<?php
 /**************************************
 	Finds users that haven't used a pass in the last 30 days
 		and whether or not they have passes available.
 
-	***THIS CAN BE USED TO SEND OUT EMAIL REMINDERS***	
+	***THIS CAN BE USED TO SEND OUT EMAIL REMINDERS***
 
 **************************************/
 
@@ -11,30 +11,30 @@ include("../inc/connectDB.php");
 
 
 // Finding total users to cycle through getting their IDs
-	$totalUsers = mysql_query("SELECT * FROM users");
-	$totalUsersCount = mysql_num_rows($totalUsers);
+	$totalUsers = mysqli_query($dbConnected, "SELECT * FROM users");
+	$totalUsersCount = mysqli_num_rows($totalUsers);
 
 
 // Looping through user table to grab each user and check them in the passes table
-	for ($i=0; $i < $totalUsersCount; $i++) { 
-		
+	for ($i=0; $i < $totalUsersCount; $i++) {
+
 		// Grabbing user 1 by 1
-			$user = mysql_query("SELECT * FROM users LIMIT 1 OFFSET $i");
-			$userRow = mysql_fetch_array($user);
+			$user = mysqli_query($dbConnected, "SELECT * FROM users LIMIT 1 OFFSET $i");
+			$userRow = mysqli_fetch_array($user);
 
 
 		//  Grabbing total number of passes older than thirty days
 		//  Need to look for where this is equal to the total number of passes in the system for the user
-			$oldpass = mysql_query("SELECT * FROM passes WHERE (`dateUsed` + INTERVAL 30 DAY < NOW() AND (userID=".$userRow['ID']." AND emailSent='Yes'))");
-			$oldpassNum = mysql_num_rows($oldpass);
+			$oldpass = mysqli_query($dbConnected, "SELECT * FROM passes WHERE (`dateUsed` + INTERVAL 30 DAY < NOW() AND (userID=".$userRow['ID']." AND emailSent='Yes'))");
+			$oldpassNum = mysqli_num_rows($oldpass);
 
 		// Grabbing total Number of passes used for user
-			$pass = mysql_query("SELECT * FROM passes WHERE (userID=".$userRow['ID']." AND emailSent='Yes')");
-			$passNum = mysql_num_rows($pass);
+			$pass = mysqli_query($dbConnected, "SELECT * FROM passes WHERE (userID=".$userRow['ID']." AND emailSent='Yes')");
+			$passNum = mysqli_num_rows($pass);
 
 		// Grabbing number of available passes
-			$passAvail = mysql_query("SELECT * FROM passes WHERE (userID=".$userRow['ID']." AND emailSent IS NULL)");
-			$passAvailNum = mysql_num_rows($passAvail);
+			$passAvail = mysqli_query($dbConnected, "SELECT * FROM passes WHERE (userID=".$userRow['ID']." AND emailSent IS NULL)");
+			$passAvailNum = mysqli_num_rows($passAvail);
 
 			// Checking if user has used a pass recently
 				if ($passNum == 0) {

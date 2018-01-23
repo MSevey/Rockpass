@@ -31,7 +31,7 @@ if (isset($_POST["emailPass"])) {
 
   // User Clicked email pass
   // setting $rockgym equal to the value from drop down
-  $rockGym = mysql_real_escape_string(@$_POST["rockGym"]);
+  $rockGym = mysqli_real_escape_string($dbConnected, @$_POST["rockGym"]);
 
 
   // Checking to see if there is a pass logged for today.  If no passes logged for today, continue.
@@ -43,8 +43,8 @@ if (isset($_POST["emailPass"])) {
 
       // User has passes available ie passes where the emailSent is NULL
       // Selecting the next pass to be used
-      $nextPass = mysql_query("SELECT * FROM passes WHERE emailSent IS NULL AND userID='$userID' ORDER BY ID LIMIT 1");
-      $nextPassRow = mysql_fetch_array($nextPass);
+      $nextPass = mysqli_query($dbConnected, "SELECT * FROM passes WHERE emailSent IS NULL AND userID='$userID' ORDER BY ID LIMIT 1");
+      $nextPassRow = mysqli_fetch_array($nextPass);
       $nextPassID = $nextPassRow['ID'];
 
 
@@ -57,7 +57,7 @@ if (isset($_POST["emailPass"])) {
         //*************************************************************
 
       //Checks to make sure update statement worked.
-      if (mysql_query($passes_SQLUpdate)) {
+      if (mysqli_query($dbConnected, $passes_SQLUpdate)) {
 
         $to = $userRow['email'];
         $subject = "Your Rock Pass";

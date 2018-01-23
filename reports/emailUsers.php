@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /***************************************************
 
@@ -9,14 +9,13 @@
 include("../inc/connectDB.php");
 
 //This is the report to pull total users
-$totalUsers = mysql_query("SELECT * FROM users");
-//$totalUsersRow = mysql_fetch_array($totalUsers);
-$totalUsersRowCount = mysql_num_rows($totalUsers);
+$totalUsers = mysqli_query($dbConnected, "SELECT * FROM users");
+$totalUsersRowCount = mysqli_num_rows($totalUsers);
 
 
 //Identifying Script name to run when contact button is clicked
 $thisScriptName = "reports/emailUsers";
- 
+
 
 //Setting the to email
 $adminEmail = "matt@therockpass.com";
@@ -27,21 +26,21 @@ $state = "";
 
 if (isset($_POST["emailUsers"])) {
 	unset($_POST["emailUsers"]);
-	
+
 	//Grabbing info
-	$subject = mysql_real_escape_string(@$_POST["subject"]);
-	$message = mysql_real_escape_string(@$_POST["message"]);
-	$state = mysql_real_escape_string(@$_POST["state"]);
+	$subject = mysqli_real_escape_string($dbConnected, @$_POST["subject"]);
+	$message = mysqli_real_escape_string($dbConnected, @$_POST["message"]);
+	$state = mysqli_real_escape_string($dbConnected, @$_POST["state"]);
 
 
 	//Checks to make sure all the fields were entered
 	if ($subject && $message) {
 
 		// For loop will cycle through all the users in the DB
-		for ($i=0; $i < $totalUsersRowCount; $i++) { 
+		for ($i=0; $i < $totalUsersRowCount; $i++) {
 
-			$user = mysql_query("SELECT * FROM users LIMIT 1 OFFSET $i");
-			$userData = mysql_fetch_array($user);
+			$user = mysqli_query($dbConnected, "SELECT * FROM users LIMIT 1 OFFSET $i");
+			$userData = mysqli_fetch_array($user);
 
 			if ($userData['state'] == $state) {
 
@@ -50,10 +49,10 @@ if (isset($_POST["emailUsers"])) {
 				$subject = $subject;
 				$txt = $message;
 				$headers = 'From: '.$admin.' <'.$adminEmail.'>' ;
-				
+
 				if (mail($to, $subject, $message, $headers)) {
 
-			
+
 				} else {
 
 					//$errormsg = "Email was not sent";
@@ -66,7 +65,7 @@ if (isset($_POST["emailUsers"])) {
 		}
 
 		header("Location: ../admin");
-		
+
 	} else {
 
 		//$errormsg = "Please fill in all the fields";
@@ -76,7 +75,7 @@ if (isset($_POST["emailUsers"])) {
 
 }
 
-	
+
 	$fld_subject = '<input type="text" class="form-control" value="'.$subject.'"  name="subject" id="subject" maxlength="50" placeholder="Subject" required />';
 	$fld_message = '<textarea type="textarea" class="form-control" value="'.$message.'"  name="message" id="message" rows="7" maxlength="500" placeholder="Message"></textarea>';
 	$fld_state = '<select name="state" class="form-control" required>
@@ -132,17 +131,17 @@ if (isset($_POST["emailUsers"])) {
 		            <option value="WI">WI</option>
 		            <option value="WY">WY</option>
 		        </select>';
-							
-											
+
+
 ?>
 
 
 <!-- User Input Form -->
 <div class="container">
 
- 	
+
 	<form action="<?php echo $thisScriptName; ?>" method="post">
-		
+
 		<h3>Email Users</h3>
 			<p>Send a Message to all the Users.</p>
 
@@ -162,9 +161,8 @@ if (isset($_POST["emailUsers"])) {
 		</div>
 
 		<br>
-		<button type="submit" class="btn btn-primary" name="emailUsers">Email Users</button>	
+		<button type="submit" class="btn btn-primary" name="emailUsers">Email Users</button>
 
 	</form>
 
-</div>	
-		
+</div>

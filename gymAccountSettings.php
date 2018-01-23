@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /************************************************
 
@@ -6,7 +6,7 @@
 	Users can update any field all at once or one at a time
 
 	TO DOs
-	1) Have warning for any missing information of the user in the user table	
+	1) Have warning for any missing information of the user in the user table
 		a) Have this warning pop up from the header user file so that the user sees it no matter what page they are on.
 		b) This should force them to always have all the info filled in.
 
@@ -18,13 +18,13 @@
 //Contains connectDB.php, session_start and decides which header to display
 //Also contains $userRow and $password which are the users info from the users table and their last entry in the passes table
 include("./chooseHeader.php");
-	
+
 
 //Identifying Script name to run when update button is clicked
 $thisScriptName = "gymAccountSettings";
 
 // sets error message to an empty highlight_string(str)
-$errormsg = ""; 
+$errormsg = "";
 
 //Grabbing Current User email
 $originalName = $gymRow['gymName'];
@@ -45,11 +45,11 @@ if (isset($_POST["update"])) {
 unset($_POST["update"]);
 
 
-	//Checks to make sure that the password and password confirm fields are equal to each other	
-	if (mysql_real_escape_string(@$_POST["password"]) == mysql_real_escape_string(@$_POST["password_Confirm"])) {
+	//Checks to make sure that the password and password confirm fields are equal to each other
+	if (mysqli_real_escape_string($dbConnected, @$_POST["password"]) == mysqli_real_escape_string($dbConnected, @$_POST["password_Confirm"])) {
 
-		$password = mysql_real_escape_string(@$_POST["password"]);
-		$password_Confirm = mysql_real_escape_string(@$_POST["password_Confirm"]);
+		$password = mysqli_real_escape_string($dbConnected, @$_POST["password"]);
+		$password_Confirm = mysqli_real_escape_string($dbConnected, @$_POST["password_Confirm"]);
 
 		//Checking to make sure the password does not contain any other user info
 		if(strpos($password, $gymRow['gymName']) !== false) {
@@ -59,7 +59,7 @@ unset($_POST["update"]);
 	          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-					</div>'; 
+					</div>';
 		} elseif(strpos($password, $gymRow['stAddress']) !== false) {
 			$errormsg = "Make sure your password does not contain your St Address.";
 			echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
@@ -67,7 +67,7 @@ unset($_POST["update"]);
 	          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-					</div>'; 
+					</div>';
 		} elseif(strpos($password, $gymRow['zipCode']) !== false) {
 			$errormsg = "Make sure your password does not contain your Zip Code.";
 			echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
@@ -75,7 +75,7 @@ unset($_POST["update"]);
 	          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-					</div>'; 
+					</div>';
 		} elseif(strpos($password, $gymRow['email']) !== false) {
 			$errormsg = "Make sure your password does not contain your email.";
 			echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
@@ -83,7 +83,7 @@ unset($_POST["update"]);
 	          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-					</div>'; 
+					</div>';
 		} elseif(strpos($password, $gymRow['phone']) !== false) {
 			$errormsg = "Make sure your password does not contain your phone number.";
 			echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
@@ -91,7 +91,7 @@ unset($_POST["update"]);
 	          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-					</div>'; 
+					</div>';
 		} elseif(strpos($password, "password") !== false) {
 			$errormsg = "Make sure your password does not contain the word password.";
 			echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
@@ -99,20 +99,20 @@ unset($_POST["update"]);
 	          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-					</div>'; 
+					</div>';
 		} else {
-		
+
 			$password = md5($password);
 
 			$gyms_Update = "UPDATE gyms ";
 	      	$gyms_Update .= "SET password='$password'  ";
 	     	$gyms_Update .= "WHERE gymName='$originalName' ";
 
-	     	//Checks to make sure update statement worked.				
-			if (mysql_query($gyms_Update)) {
-				    
+	     	//Checks to make sure update statement worked.
+			if (mysqli_query($dbConnected, $gyms_Update)) {
+
 				//echo "success";
-					
+
 			} else {
 
 				$errormsg = "Oops, looks liks something did not update.  Try reloading the page and trying again.";
@@ -121,9 +121,9 @@ unset($_POST["update"]);
 		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
-						</div>'; 
-					
-			}		
+						</div>';
+
+			}
 		}
 
 	} else {
@@ -134,34 +134,34 @@ unset($_POST["update"]);
           			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-				</div>'; 
-				
-	} 
+				</div>';
 
-	
-	
-	$gymName = mysql_real_escape_string(@$_POST["gymName"]);
-	$stAddress = mysql_real_escape_string(@$_POST["stAddress"]);
-	$zipCode = mysql_real_escape_string(@$_POST["zipCode"]);
-	$email = mysql_real_escape_string(@$_POST["email"]);
-	$phone = mysql_real_escape_string(@$_POST["phone"]);
-	$state = mysql_real_escape_string(@$_POST["state"]);
+	}
+
+
+
+	$gymName = mysqli_real_escape_string($dbConnected, @$_POST["gymName"]);
+	$stAddress = mysqli_real_escape_string($dbConnected, @$_POST["stAddress"]);
+	$zipCode = mysqli_real_escape_string($dbConnected, @$_POST["zipCode"]);
+	$email = mysqli_real_escape_string($dbConnected, @$_POST["email"]);
+	$phone = mysqli_real_escape_string($dbConnected, @$_POST["phone"]);
+	$state = mysqli_real_escape_string($dbConnected, @$_POST["state"]);
 
 	$gyms_Update = "UPDATE gyms ";
   	$gyms_Update .= "SET gymName='$gymName', stAddress='$stAddress', zipCode='$zipCode' email='$email', phone='$phone' state='$state'  ";
  	$gyms_Update .= "WHERE gymName='$originalName' ";
 
-					
-	//Checks to make sure update statement worked.				
-	if (mysql_query($gyms_Update)) {
+
+	//Checks to make sure update statement worked.
+	if (mysqli_query($dbConnected, $gyms_Update)) {
 
 		echo '	<div class="alert alert-dismissable alert-success text-center" role="alert">
           			<strong>Success!</strong>  Your info was updated!
           			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-				</div>'; 
-			
+				</div>';
+
 	} else {
 
 		$errormsg = "Oops, looks liks something did not update.  Try reloading the page and trying again.";
@@ -170,17 +170,17 @@ unset($_POST["update"]);
           			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-				</div>'; 
-			
-	}										
-		
+				</div>';
+
+	}
+
 }
-					
-	
+
+
 ?>
 
 
-<?php 
+<?php
 
 	$fld_gymName = '<input type="text" class="form-control" value="'.$gymName.'" name="gymName" id="gymName" size="30" maxlength="20" />';
 	$fld_stAddress = '<input type="text" class="form-control" value="'.$stAddress.'"  name="stAddress" id="stAddress" size="30" maxlength="50"/>';
@@ -243,16 +243,16 @@ unset($_POST["update"]);
 			            <option value="WI">WI</option>
 			            <option value="WY">WY</option>
 			        </select>';
-											
+
 ?>
 
 <!-- User Input Form -->
 <div class="container">
 
- 	
+
 	<form action="<?php echo $thisScriptName; ?>" method="post">
 
-		
+
 			<h3>Account Settings</h3>
    			<p>Update the info below.</p>
 
@@ -290,18 +290,18 @@ unset($_POST["update"]);
 				<label for="password_Confirm">Confirm Password</label>
 				<?php echo $fld_password_Confirm; ?>
 			</div>
-			
+
 			<label>State: <span>*</span></label><br/>
 	        <?php echo $fld_state; ?>
 
 
 			<br>
-			<button type="submit" class="btn btn-primary">Update Info!</button>	
+			<button type="submit" class="btn btn-primary">Update Info!</button>
 
 	</form>
 
-</div>	
-					
+</div>
+
 
 
 <?php include("./footer.php"); ?>

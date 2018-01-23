@@ -35,10 +35,10 @@ if (isset($_POST["signIn"])) {
 	unset($_POST["signIn"]);
 
 	//Sets the username and email to what was entered
-	$username_login = mysqli_real_escape_string(@$_POST["username_login"]);
+	$username_login = mysqli_real_escape_string($dbConnected, @$_POST["username_login"]);
 
 	//Sets password to what was entered
-	$password_login = mysqli_real_escape_string(@$_POST["password_login"]);
+	$password_login = mysqli_real_escape_string($dbConnected, @$_POST["password_login"]);
 
 	//Checks to make sure the password and username are not blank
 	if ($password_login != "" && $username_login != ""){
@@ -48,7 +48,7 @@ if (isset($_POST["signIn"])) {
 		$password_login_md5 = md5($password_login);
 
 		//Finds the entry in users table where username and password match what was entered
-		$users_Select = mysqli_query("SELECT * FROM users WHERE username='$username_login' AND password='$password_login_md5' LIMIT 1");
+		$users_Select = mysqli_query($dbConnected, "SELECT * FROM users WHERE username='$username_login' AND password='$password_login_md5' LIMIT 1");
 
 		//Counts the number of rows that were found in the users table
 		$userCount = mysqli_num_rows($users_Select);
@@ -70,13 +70,13 @@ if (isset($_POST["signIn"])) {
 		} else {
 
 			//Finds the entry in users table where email and password match what was entered
-			$users_Select = mysqli_query("SELECT * FROM users WHERE email='$username_login' AND password='$password_login_md5' LIMIT 1");
+			$users_Select = mysqli_query($dbConnected, "SELECT * FROM users WHERE email='$username_login' AND password='$password_login_md5' LIMIT 1");
 			$users_Select_Row = mysqli_fetch_array($users_Select);
 
 			//Counts the number of rows that where found in the users table
 			$userCount = mysqli_num_rows($users_Select);
 
-			if ($userCount == 1) {		
+			if ($userCount == 1) {
 
 				//Grabbing users Username since they logged in with email and redefining $username_login
 				$username_login = $users_Select_Row['username'];
