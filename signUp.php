@@ -122,7 +122,7 @@ unset($_POST["signUp"]);
 								$users_SQLinsert .= ") ";
 
 								//Checks to make sure insert statement worked.
-								if (mysqli_query($users_SQLinsert)) {
+								if (mysqli_query($dbConnected, $users_SQLinsert)) {
 
 									//Sets the session to the username
 									$_SESSION["username_login"] = $username;
