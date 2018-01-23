@@ -35,7 +35,7 @@
 	$dbSuccess = false;
 
 //Setting vaiable $dbConnected to a value of Ture or False based on if the db is connected
-	$dbConnected = mysql_connect($db['hostname'],$db['username'],$db['password'],$db['database']);
+	$dbConnected = mysqli_connect($db['hostname'],$db['username'],$db['password'],$db['database']);
 
 //First checking to see if the mysql_connect statement came back as true making the variable $dbConnected = true
 
@@ -43,7 +43,7 @@
 
 	if ($dbConnected) {
 		//If the database is successfully connected, we make sure we can select the DB
-		$dbSelected = mysql_select_db($db['database'],$dbConnected);
+		$dbSelected = mysqli_select_db($db['database'],$dbConnected);
 
 		//This then checks to make sure we were able to select the DB
 		if ($dbSelected) {
