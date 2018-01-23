@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**********************************************************************
 
@@ -19,7 +19,7 @@
 
 session_start();
 
-include("./inc/connectDB.php");  
+include("./inc/connectDB.php");
 
 
 include ( "./header.php" );
@@ -29,9 +29,9 @@ include ( "./header.php" );
 $thisScriptName = "signUp.php";
 
 // sets error message to an empty highlight_string(str)
-$errormsg = ""; 
+$errormsg = "";
 
-// Clearing variables so that nothing shows up in the input fields		
+// Clearing variables so that nothing shows up in the input fields
 $username = "";
 $email = "";
 $password = "";
@@ -44,85 +44,85 @@ if (isset($_POST["signUp"])) {
 unset($_POST["signUp"]);
 
 	//Capturing inputs into variables
-	$email = mysql_real_escape_string(@$_POST["email"]);
-	$password = mysql_real_escape_string(@$_POST["password"]);
-	$password_Confirm = mysql_real_escape_string(@$_POST["password_Confirm"]);
-	$state = mysql_real_escape_string(@$_POST["state"]);
+	$email = mysqli_real_escape_string(@$_POST["email"]);
+	$password = mysqli_real_escape_string(@$_POST["password"]);
+	$password_Confirm = mysqli_real_escape_string(@$_POST["password_Confirm"]);
+	$state = mysqli_real_escape_string(@$_POST["state"]);
 	$username = $email;
 
-			
+
 	// Check to see if info is sufficient
 	//check if user already exists
-	$email_check = mysql_query("SELECT email FROM users WHERE email='$email'");
-	$emailRow = mysql_num_rows($email_check);
-					
+	$email_check = mysqli_query("SELECT email FROM users WHERE email='$email'");
+	$emailRow = mysqli_num_rows($email_check);
+
 	if ($emailRow == 0) {
 
 		//check all of the fields have been filled in
 		if ($email&&$state&&$password&&$password_Confirm) {
 
-				//check that passwords match 
+				//check that passwords match
 				if ($password == $password_Confirm) {
 
 					//Checking to make sure the password does not contain any other user info
 					if(strpos($password, $email) !== false) {
-						$errormsg = "Make sure your password does not contain your email."; 
+						$errormsg = "Make sure your password does not contain your email.";
       					echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 				          			'.$errormsg.'
 				          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
-								</div>'; 
+								</div>';
 					} elseif(strpos($password, "password") !== false) {
-						$errormsg = "Make sure your password does not contain the word password."; 
+						$errormsg = "Make sure your password does not contain the word password.";
       					echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 				          			'.$errormsg.'
 				          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
-								</div>'; 
+								</div>';
 					} else {
 
 
-						//Checks to make sure the password is at least 8 characters	
+						//Checks to make sure the password is at least 8 characters
 						if (strlen($password)>=8) {
-							
+
 							//check the maximum length of username/firstname/lastname does not exceed 25 characters
-							if (strlen($email)>50||strlen($password)>50) { 
-								$errormsg = "Sorry the maximum length for inputs is 50 characters."; 
+							if (strlen($email)>50||strlen($password)>50) {
+								$errormsg = "Sorry the maximum length for inputs is 50 characters.";
 		      					echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 						          			'.$errormsg.'
 						          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 												<span aria-hidden="true">&times;</span>
 											</button>
-										</div>'; 
-							} else {		
-									
-								$password = md5($password);	
+										</div>';
+							} else {
 
-								for ($i=0; $i < 6; $i++) { 
+								$password = md5($password);
+
+								for ($i=0; $i < 6; $i++) {
 									$randomValue = substr("abcdefghijklmnopqrstuvwxyz0123456789", mt_rand(0,35), 1);
 									$referralCode = $referralCode.$randomValue;
 								}
 
 								$users_SQLinsert = "INSERT INTO users (";
-								$users_SQLinsert .= "username, ";	
-								$users_SQLinsert .= "email, ";	
-								$users_SQLinsert .= "password, ";	
-								$users_SQLinsert .= "state, ";	
+								$users_SQLinsert .= "username, ";
+								$users_SQLinsert .= "email, ";
+								$users_SQLinsert .= "password, ";
+								$users_SQLinsert .= "state, ";
 								$users_SQLinsert .= "referralCode ";
-								$users_SQLinsert .= ") ";	
-								
-								$users_SQLinsert .= "VALUES (";	
+								$users_SQLinsert .= ") ";
+
+								$users_SQLinsert .= "VALUES (";
 								$users_SQLinsert .= "'".$username."', ";
 								$users_SQLinsert .= "'".$email."', ";
 								$users_SQLinsert .= "'".$password."', ";
 								$users_SQLinsert .= "'".$state."', ";
 								$users_SQLinsert .= "'".$referralCode."' ";
-								$users_SQLinsert .= ") ";			
-												
+								$users_SQLinsert .= ") ";
+
 								//Checks to make sure insert statement worked.				
-								if (mysql_query($users_SQLinsert)) {
+								if (mysqli_query($users_SQLinsert)) {
 
 									//Sets the session to the username
 									$_SESSION["username_login"] = $username;
@@ -135,69 +135,69 @@ unset($_POST["signUp"]);
 
 									// Javascript is for live website.  Does not work on localhost
 									// echo '<script type="text/javascript"> window.location="www.therockpass.com/account"; </script>';
-								   
+
 								} else {
-									$errormsg = "Oops! Something went wrong. Please reload the page and try again."; 
+									$errormsg = "Oops! Something went wrong. Please reload the page and try again.";
 			      					echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 							          			'.$errormsg.'
 							          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 													<span aria-hidden="true">&times;</span>
 												</button>
-											</div>'; 
+											</div>';
 									die(mysql_error());
-								}										
-									
+								}
+
 							}
-						
+
 						} else {
-							$errormsg = "Please make sure your password is longer than 8 characters."; 
+							$errormsg = "Please make sure your password is longer than 8 characters.";
 	      					echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 					          			'.$errormsg.'
 					          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
-									</div>'; 
+									</div>';
 						}
-					}	
-			 
+					}
+
 				} else {
-					$errormsg = "Ooo, almost. Please make sure the Passwords match."; 
+					$errormsg = "Ooo, almost. Please make sure the Passwords match.";
   					echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 			          			'.$errormsg.'
 			          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-							</div>'; 
-				}	
-	 
+							</div>';
+				}
+
 		} else {
-			$errormsg = "Please make sure you filled in all the fields."; 
+			$errormsg = "Please make sure you filled in all the fields.";
 			echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 	          			'.$errormsg.'
 	          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-					</div>'; 
+					</div>';
 		}
 
 	} else {
-		$errormsg = "Someone has already registered with that email address."; 
+		$errormsg = "Someone has already registered with that email address.";
 		echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
           			'.$errormsg.'
 	      			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-				</div>'; 
+				</div>';
 	}
 
-} 	
-	
+}
+
 ?>
 
 
 <!-- END Save button clicked -->
 
-<?php 
+<?php
 
 
 	$fld_email = '<input type="text" class="form-control" value="'.$email.'"  name="email" id="email" size="30" maxlength="50" required/>';
@@ -256,16 +256,16 @@ unset($_POST["signUp"]);
 			            <option value="WI">WI</option>
 			            <option value="WY">WY</option>
 			        </select>';
-											
+
 ?>
 
 <!-- User Input Form -->
 <div class="container">
 
- 	
+
 	<form action="<?php echo $thisScriptName; ?>" method="post" enctype="multipart/form-data">
 
-		
+
 			<h3>Sign Up!</h3>
    			<p>Start climbing where you want, when you want!</p>
 
@@ -284,18 +284,18 @@ unset($_POST["signUp"]);
 				<label for="password_Confirm">Confirm Password</label>
 				<?php echo $fld_password_Confirm; ?>
 			</div>
-			
+
 			<label>State: <span>*</span></label><br/>
 	        <?php echo $fld_state; ?>
 
 
 			<br>
-			<button type="submit" class="btn btn-primary" name="signUp">Sign Up!</button>	
+			<button type="submit" class="btn btn-primary" name="signUp">Sign Up!</button>
 
 	</form>
 
-</div>	
-					
+</div>
+
 
 
 <?php include("./footer.php"); ?>
