@@ -37,7 +37,7 @@
 //Setting vaiable $dbConnected to a value of Ture or False based on if the db is connected
 	$dbConnected = mysqli_connect($db['hostname'],$db['username'],$db['password'],$db['database']);
 
-//First checking to see if the mysql_connect statement came back as true making the variable $dbConnected = true
+//First checking to see if the mysqli_connect statement came back as true making the variable $dbConnected = true
 
 	$alert = "";
 

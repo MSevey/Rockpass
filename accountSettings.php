@@ -41,8 +41,8 @@ $errormsg = "";
 		if (isset($_POST["update"])) {
 			unset($_POST["update"]);
 
-			$password = mysql_real_escape_string(@$_POST["password"]);
-			$password_Confirm = mysql_real_escape_string(@$_POST["password_Confirm"]);
+			$password = mysqli_real_escape_string($dbConnected, @$_POST["password"]);
+			$password_Confirm = mysqli_real_escape_string($dbConnected, @$_POST["password_Confirm"]);
 
 			//Checking if password was changed or not
 			if ($password != "*****") {
@@ -69,8 +69,8 @@ $errormsg = "";
 						echo '<div class="alert alert-danger text-center" role="alert">'.$errormsg.'.</div>';
 					} else {
 
-						$password = mysql_real_escape_string(@$_POST["password"]);
-						$password_Confirm = mysql_real_escape_string(@$_POST["password_Confirm"]);
+						$password = mysqli_real_escape_string($dbConnected, @$_POST["password"]);
+						$password_Confirm = mysqli_real_escape_string($dbConnected, @$_POST["password_Confirm"]);
 
 						$password = md5($password);
 
@@ -79,7 +79,7 @@ $errormsg = "";
 				     	$users_Update .= "WHERE email='$originalEmail' ";
 
 				     	//Checks to make sure update statement worked.
-						if (mysql_query($users_Update)) {
+						if (mysqli_query($dbConnected, $users_Update)) {
 
 
 							echo '<div class="alert alert-success text-center" role="alert"><strong>Success!</strong>  Your info was updated!</div>';
@@ -100,12 +100,12 @@ $errormsg = "";
 			} else {
 
 
-				$fName = mysql_real_escape_string(@$_POST["fName"]);
-				$lName = mysql_real_escape_string(@$_POST["lName"]);
-				$username = mysql_real_escape_string(@$_POST["username"]);
-				$email = mysql_real_escape_string(@$_POST["email"]);
-				$state = mysql_real_escape_string(@$_POST["state"]);
-				$job = mysql_real_escape_string(@$_POST["job"]);
+				$fName = mysqli_real_escape_string($dbConnected, @$_POST["fName"]);
+				$lName = mysqli_real_escape_string($dbConnected, @$_POST["lName"]);
+				$username = mysqli_real_escape_string($dbConnected, @$_POST["username"]);
+				$email = mysqli_real_escape_string($dbConnected, @$_POST["email"]);
+				$state = mysqli_real_escape_string($dbConnected, @$_POST["state"]);
+				$job = mysqli_real_escape_string($dbConnected, @$_POST["job"]);
 
 
 				$users_Update = "UPDATE users ";
@@ -114,7 +114,7 @@ $errormsg = "";
 
 
 				//Checks to make sure update statement worked.
-				if (mysql_query($users_Update)) {
+				if (mysqli_query($dbConnected, $users_Update)) {
 					$_SESSION["username_login"] = $username;
 					echo '<div class="alert alert-success text-center" role="alert"><strong>Success!</strong>  Your info was updated!</div>';
 
@@ -208,7 +208,7 @@ $errormsg = "";
 		        $profilePic = $target_file;
 		        $profilePic_Update = "UPDATE users SET profilePic='$profilePic' WHERE username='$username'";
 
-		        if (mysql_query($profilePic_Update)) {
+		        if (mysqli_query($dbConnected, $profilePic_Update)) {
 
 					echo '	<div class="alert alert-dismissable alert-success text-center" role="alert">
 			          			<strong>Success!</strong>  Your profile picture was uploaded!
@@ -252,11 +252,11 @@ $errormsg = "";
 			unset($_POST["stats"]);
 
 			// Pulling in selections from dropdowns
-				$preferedStyle = mysql_real_escape_string(@$_POST["preferedStyle"]);
-				$boulderinglvl = mysql_real_escape_string(@$_POST["boulderinglvl"]);
-				$topRopinglvl = mysql_real_escape_string(@$_POST["topRopinglvl"]);
-				$leadinglvl = mysql_real_escape_string(@$_POST["leadinglvl"]);
-				$yearsClimbing = mysql_real_escape_string(@$_POST["yearsClimbing"]);
+				$preferedStyle = mysqli_real_escape_string($dbConnected, @$_POST["preferedStyle"]);
+				$boulderinglvl = mysqli_real_escape_string($dbConnected, @$_POST["boulderinglvl"]);
+				$topRopinglvl = mysqli_real_escape_string($dbConnected, @$_POST["topRopinglvl"]);
+				$leadinglvl = mysqli_real_escape_string($dbConnected, @$_POST["leadinglvl"]);
+				$yearsClimbing = mysqli_real_escape_string($dbConnected, @$_POST["yearsClimbing"]);
 
 			// Updating userdata
 				$userData_update = "UPDATE userdata ";
@@ -265,7 +265,7 @@ $errormsg = "";
 				$userData_update .= 	"yearsClimbing='$yearsClimbing' ";
 				$userData_update .= "WHERE userID='$userID'";
 
-			if (mysql_query($userData_update)) {
+			if (mysqli_query($dbConnected, $userData_update)) {
 
 				echo '	<div class="alert alert-dismissable alert-success text-center" role="alert">
 		          			<strong>Success!</strong> Your climbing stats have been updated!
@@ -323,7 +323,7 @@ $errormsg = "";
 				$userHobbies_update .= "SET rockClimbing='$rockClimbing', iceClimbing='$iceClimbing', hiking='$hiking', camping='$camping' ";
 				$userHobbies_update .= "WHERE userID='$userID'";
 
-			if (mysql_query($userHobbies_update)) {
+			if (mysqli_query($dbConnected, $userHobbies_update)) {
 
 				echo '	<div class="alert alert-dismissable alert-success text-center" role="alert">
 		          			<strong>Success!</strong> Your hobbies have been updated!

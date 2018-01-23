@@ -34,7 +34,7 @@ if(isset($_POST["reloadPasses"])) {
 
       $passes_SQLinsert = "INSERT INTO passes (userID) VALUES ($userID)";
 
-      if (mysql_query($passes_SQLinsert)) {
+      if (mysqli_query($dbConnected, $passes_SQLinsert)) {
 
 
       } else {
@@ -53,13 +53,13 @@ if(isset($_POST["reloadPasses"])) {
 
     }
 
-    $datePurchasedInfo = mysql_query("SELECT * FROM passes WHERE emailSent IS NULL LIMIT 1");
-    $datePurchasedRow = mysql_fetch_array($datePurchasedInfo);
+    $datePurchasedInfo = mysqli_query($dbConnected, "SELECT * FROM passes WHERE emailSent IS NULL LIMIT 1");
+    $datePurchasedRow = mysqli_fetch_array($datePurchasedInfo);
     $datePurchased = $datePurchasedRow['datePurchased'];
 
     $dateUpdate = "UPDATE passes SET datePurchased='$datePurchased' WHERE userID='$userID' AND emailSent IS NULL";
 
-    if (mysql_query($dateUpdate)) {
+    if (mysqli_query($dbConnected, $dateUpdate)) {
 
       echo '<div class="row">
               <div class="col-xs-12">

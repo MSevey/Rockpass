@@ -144,7 +144,7 @@ unset($_POST["signUp"]);
 													<span aria-hidden="true">&times;</span>
 												</button>
 											</div>';
-									die(mysql_error());
+									die(mysqli_error());
 								}
 
 							}

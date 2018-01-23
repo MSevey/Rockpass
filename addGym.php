@@ -1,9 +1,9 @@
-<?php 
+<?php
 
 //***********************************************************************
 //
 //	STATUS OF PAGE
-// 
+//
 //	Lets admin add gyms
 //
 //************************************************************************
@@ -20,10 +20,10 @@ include("./chooseHeader.php");
 $thisScriptName = "addGym.php";
 
 // sets error message to an empty highlight_string(str)
-$errormsg = ""; 
+$errormsg = "";
 
 
-// Clearing variables so that nothing shows up in the input fields		
+// Clearing variables so that nothing shows up in the input fields
 $gymName = "";
 $state = "";
 $shortName = "";
@@ -31,112 +31,112 @@ $stAddress = "";
 $zipCode = "";
 $email = "";
 $phone = "";
-	
+
 
 //Sign Up Button Clicked
 if (isset($_POST["addGym"])) {
 unset($_POST["addGym"]);
 
 	//Capturing inputs into variables
-	$gymName = mysql_real_escape_string(@$_POST["gymName"]);
-	$state = mysql_real_escape_string(@$_POST["state"]);
-	$shortName = mysql_real_escape_string(@$_POST["shortName"]);
-	$stAddress = mysql_real_escape_string(@$_POST["stAddress"]);
-	$zipCode = mysql_real_escape_string(@$_POST["zipCode"]);
-	$email = mysql_real_escape_string(@$_POST["email"]);
-	$phone = mysql_real_escape_string(@$_POST["phone"]);
-			
+	$gymName = mysqli_real_escape_string($dbConnected, @$_POST["gymName"]);
+	$state = mysqli_real_escape_string($dbConnected, @$_POST["state"]);
+	$shortName = mysqli_real_escape_string($dbConnected, @$_POST["shortName"]);
+	$stAddress = mysqli_real_escape_string($dbConnected, @$_POST["stAddress"]);
+	$zipCode = mysqli_real_escape_string($dbConnected, @$_POST["zipCode"]);
+	$email = mysqli_real_escape_string($dbConnected, @$_POST["email"]);
+	$phone = mysqli_real_escape_string($dbConnected, @$_POST["phone"]);
+
 	// Check to see if info is sufficient
 	//check if gym already exists
-	$gym_check = mysql_query("SELECT gymName FROM gyms WHERE shortName='$shortName'");
-	$gymRow = mysql_num_rows($gym_check);
-					
+	$gym_check = mysqli_query($dbConnected, "SELECT gymName FROM gyms WHERE shortName='$shortName'");
+	$gymRow = mysqli_num_rows($gym_check);
+
 	if ($gymRow == 0) {
 
 		//check all of the fields have been filled in
 		if ($gymName&&$state&&$shortName&&$stAddress&&$zipCode&&$email&&$phone) {
-											
+
 			//check the maximum length of username/firstname/lastname does not exceed 25 characters
 			if (strlen($email)>50||strlen($gymName)>50||strlen($shortName)>50||strlen($stAddress)>100) {
-					$errormsg = "Sorry the maximum length for inputs is 50 characters and 100 characters for st addresses."; 
+					$errormsg = "Sorry the maximum length for inputs is 50 characters and 100 characters for st addresses.";
   					echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 			          			'.$errormsg.'
 			          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-							</div>'; 
-			} else {																													
-					
+							</div>';
+			} else {
+
 				$gym_SQLinsert = "INSERT INTO gyms (";
-				$gym_SQLinsert .= "gymName, ";	
-				$gym_SQLinsert .= "state, ";		
-				$gym_SQLinsert .= "shortName, ";	
-				$gym_SQLinsert .= "stAddress, ";	
-				$gym_SQLinsert .= "zipCode, ";	
-				$gym_SQLinsert .= "email, ";	
-				$gym_SQLinsert .= "phone ";	
-				$gym_SQLinsert .= ") ";	
-				
-				$gym_SQLinsert .= "VALUES (";	
-				$gym_SQLinsert .= "'".$gymName."', ";	
-				$gym_SQLinsert .= "'".$state."', ";	
-				$gym_SQLinsert .= "'".$shortName."', ";	
-				$gym_SQLinsert .= "'".$stAddress."', ";	
-				$gym_SQLinsert .= "'".$zipCode."', ";	
-				$gym_SQLinsert .= "'".$email."', ";	
-				$gym_SQLinsert .= "'".$phone."' ";	
+				$gym_SQLinsert .= "gymName, ";
+				$gym_SQLinsert .= "state, ";
+				$gym_SQLinsert .= "shortName, ";
+				$gym_SQLinsert .= "stAddress, ";
+				$gym_SQLinsert .= "zipCode, ";
+				$gym_SQLinsert .= "email, ";
+				$gym_SQLinsert .= "phone ";
 				$gym_SQLinsert .= ") ";
-								
-				//Checks to make sure insert statement worked.				
-				if (mysql_query($gym_SQLinsert)) {
+
+				$gym_SQLinsert .= "VALUES (";
+				$gym_SQLinsert .= "'".$gymName."', ";
+				$gym_SQLinsert .= "'".$state."', ";
+				$gym_SQLinsert .= "'".$shortName."', ";
+				$gym_SQLinsert .= "'".$stAddress."', ";
+				$gym_SQLinsert .= "'".$zipCode."', ";
+				$gym_SQLinsert .= "'".$email."', ";
+				$gym_SQLinsert .= "'".$phone."' ";
+				$gym_SQLinsert .= ") ";
+
+				//Checks to make sure insert statement worked.
+				if (mysqli_query($dbConnected, $gym_SQLinsert)) {
 
 					echo '<div class="alert alert-success text-center" role="alert">Gym info uploaded.</div>';
 					echo '<div class="container"><a href="./addGym">Add another gym.</a></div>';
 					exit();
-				   
+
 				} else {
-					$errormsg = "Oops! Something went wrong."; 
+					$errormsg = "Oops! Something went wrong.";
   					echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 			          			'.$errormsg.'
 			          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-							</div>'; 
-					die(mysql_error());
-				}										
-								
-			}					
-						
-	 
+							</div>';
+					die(mysqli_error());
+				}
+
+			}
+
+
 		} else {
-			$errormsg = "Please make sure you filled in all the fields."; 
+			$errormsg = "Please make sure you filled in all the fields.";
 			echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 	          			'.$errormsg.'
 	          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-					</div>';  
+					</div>';
 		}
 
 
-	} else { 
-		$errormsg = "There is already a Gym register with that info."; 
+	} else {
+		$errormsg = "There is already a Gym register with that info.";
 		echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
           			'.$errormsg.'
           			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-				</div>'; 
+				</div>';
 	}
 
-} 	
-	
+}
+
 ?>
 
 
 <!-- END Save button clicked -->
 
-<?php 
+<?php
 
 
 	$fld_gymName = '<input type="text" class="form-control" value="'.$gymName.'" name="gymName" id="gymName" required/>';
@@ -198,16 +198,16 @@ unset($_POST["addGym"]);
 			            <option value="WI">WI</option>
 			            <option value="WY">WY</option>
 			        </select>';
-											
+
 ?>
 
 <!-- User Input Form -->
 <div class="container">
 
- 	
+
 	<form action="<?php echo $thisScriptName; ?>" method="post">
 
-		
+
 			<h3>Add Gym</h3>
    			<p>Enter in new gym information below.</p>
 
@@ -240,17 +240,17 @@ unset($_POST["addGym"]);
 				<label for="phone">Phone Number</label>
 				<?php echo $fld_phone; ?>
 			</div>
-			
+
 			<label>State: <span>*</span></label><br/>
 	        <?php echo $fld_state; ?>
 
 			<br>
-			<button type="submit" class="btn btn-primary" name="addGym">Add Gym</button>	
+			<button type="submit" class="btn btn-primary" name="addGym">Add Gym</button>
 
 	</form>
 
-</div>	
-					
+</div>
+
 
 
 <?php include("./footer.php"); ?>

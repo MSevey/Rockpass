@@ -46,10 +46,10 @@ if (isset($_POST["contact"])) {
 	unset($_POST["contact"]);
 
 	//Grabbing info
-	$contactName = mysql_real_escape_string(@$_POST["contactName"]);
-	$email = mysql_real_escape_string(@$_POST["email"]);
-	$subject = mysql_real_escape_string(@$_POST["subject"]);
-	$message = mysql_real_escape_string(@$_POST["message"]);
+	$contactName = mysqli_real_escape_string($dbConnected, @$_POST["contactName"]);
+	$email = mysqli_real_escape_string($dbConnected, @$_POST["email"]);
+	$subject = mysqli_real_escape_string($dbConnected, @$_POST["subject"]);
+	$message = mysqli_real_escape_string($dbConnected, @$_POST["message"]);
 
 
 	//Checks to make sure all the fields were entered
@@ -83,7 +83,7 @@ if (isset($_POST["contact"])) {
 			$email_SQLinsert .= "'".$to."', ";
 			$email_SQLinsert .= "'".$sent."' ) ";
 
-			if (mysql_query($email_SQLinsert)) {
+			if (mysqli_query($dbConnected, $email_SQLinsert)) {
 
 				//Displays Success message
 				echo '	<div class="alert alert-dismissable alert-success text-center" role="alert">
