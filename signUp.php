@@ -44,16 +44,16 @@ if (isset($_POST["signUp"])) {
 unset($_POST["signUp"]);
 
 	//Capturing inputs into variables
-	$email = mysqli_real_escape_string(@$_POST["email"]);
-	$password = mysqli_real_escape_string(@$_POST["password"]);
-	$password_Confirm = mysqli_real_escape_string(@$_POST["password_Confirm"]);
-	$state = mysqli_real_escape_string(@$_POST["state"]);
+	$email = mysqli_real_escape_string($dbConnected, @$_POST["email"]);
+	$password = mysqli_real_escape_string($dbConnected, @$_POST["password"]);
+	$password_Confirm = mysqli_real_escape_string($dbConnected, @$_POST["password_Confirm"]);
+	$state = mysqli_real_escape_string($dbConnected, @$_POST["state"]);
 	$username = $email;
 
 
 	// Check to see if info is sufficient
 	//check if user already exists
-	$email_check = mysqli_query("SELECT email FROM users WHERE email='$email'");
+	$email_check = mysqli_query($dbConnected, "SELECT email FROM users WHERE email='$email'");
 	$emailRow = mysqli_num_rows($email_check);
 
 	if ($emailRow == 0) {
@@ -121,7 +121,7 @@ unset($_POST["signUp"]);
 								$users_SQLinsert .= "'".$referralCode."' ";
 								$users_SQLinsert .= ") ";
 
-								//Checks to make sure insert statement worked.				
+								//Checks to make sure insert statement worked.
 								if (mysqli_query($users_SQLinsert)) {
 
 									//Sets the session to the username
