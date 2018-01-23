@@ -14,21 +14,21 @@
 
 //Creating the array $db so that inforamtion about the DB only has to be changed in one location
 
-	// For using on computer localhost
-	$db = array(
-		'hostname' => 'localhost',
-		'username' => 'root',
-		'password' => 'password',
-		'database' => 'rpassdb',
-		);
-
-	// // For using on live website
+	// // For using on computer localhost
 	// $db = array(
 	// 	'hostname' => 'localhost',
-	// 	'username' => 'rockpassadmin',
-	// 	'password' => 'TheRockPass01',
+	// 	'username' => 'root',
+	// 	'password' => 'password',
 	// 	'database' => 'rpassdb',
 	// 	);
+
+	// For using on live website
+	$db = array(
+		'hostname' => 'us-cdbr-iron-east-05.cleardb.net',
+		'username' => 'b9473b73b938d0',
+		'password' => 'c396de86',
+		'database' => 'heroku_ca1cbb3f9ee48ef',
+		);
 
 
 //Setting Variable $dbSuccess initially to false so that if nothing happens we will have an error message
