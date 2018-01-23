@@ -115,7 +115,7 @@ $errormsg = "";
 		        $profilePic = $target_file;
 		        $profilePic_Update = "UPDATE users SET profilePic='$profilePic' WHERE username='$username'";
 
-		        if (mysql_query($profilePic_Update)) {
+		        if (mysqli_query($dbConnected, $profilePic_Update)) {
 					//have page reload so that if the user refreshes the page it does not resubmit the form
 
 		        	// Header is for localhost.  Does not work on live website
@@ -168,7 +168,7 @@ $errormsg = "";
 
 		$referralCode_Update = "UPDATE users SET referralCode='$referralCode' WHERE username='$username'";
 
-		if (mysql_query($referralCode_Update)) {
+		if (mysqli_query($dbConnected, $referralCode_Update)) {
 			//have page reload so that if the user refreshes the page it does not resubmit the form
 
         	// Header is for localhost.  Does not work on live website
@@ -191,28 +191,28 @@ $errormsg = "";
 	}
 
 // Determining total number of climbs, ie passes used
-	$totalClimbsInfo = mysql_query("SELECT * FROM passes WHERE userID='$userID' and emailSent IS NOT NULL");
-	$totalClimbs = mysql_num_rows($totalClimbsInfo);
+	$totalClimbsInfo = mysqli_query($dbConnected, "SELECT * FROM passes WHERE userID='$userID' and emailSent IS NOT NULL");
+	$totalClimbs = mysqli_num_rows($totalClimbsInfo);
 
 // Identifying gym in area
 // Determining passes used per gym then identifying top visited gym and calculating te percent of visits to that gym
 	$userState = $userRow['state'];
 
-	$gymUserState = mysql_query("SELECT * FROM gyms WHERE state='$userState'");
-	$gymUserStateNum = mysql_num_rows($gymUserState);
+	$gymUserState = mysqli_query($dbConnected, "SELECT * FROM gyms WHERE state='$userState'");
+	$gymUserStateNum = mysqli_num_rows($gymUserState);
 
 	$mostVisitGym = "";
 	$numVisits = 0;
 
 	for ($i=0; $i < $gymUserStateNum; $i++) {
 
-	  $gymInfo = mysql_query("SELECT * FROM gyms WHERE state='$userState' LIMIT 1 OFFSET $i");
-	  $gym = mysql_fetch_array($gymInfo);
+	  $gymInfo = mysqli_query($dbConnected, "SELECT * FROM gyms WHERE state='$userState' LIMIT 1 OFFSET $i");
+	  $gym = mysqli_fetch_array($gymInfo);
 
 	  $gymName = $gym['shortName'];
 
-	  $gymPassesInfo = mysql_query("SELECT * FROM passes WHERE (userID='$userID' AND rockGym='$gymName')");
-	  $gymPasses = mysql_num_rows($gymPassesInfo);
+	  $gymPassesInfo = mysqli_query($dbConnected, "SELECT * FROM passes WHERE (userID='$userID' AND rockGym='$gymName')");
+	  $gymPasses = mysqli_num_rows($gymPassesInfo);
 
 	  // Gym Array is alphbetical by gym name and contains gymName and visits
 	  $gymArray[$i]['gymName'] = $gym['gymName'];
@@ -239,7 +239,7 @@ $errormsg = "";
 		// Table has not been updated today
 		$userData_update = "UPDATE userdata SET percVisit='$percVisit', mostVisitGym='$mostVisitGym' WHERE userID='$userID'";
 
-		if (mysql_query($userData_update)) {
+		if (mysqli_query($dbConnected, $userData_update)) {
 			// userdata updated successfully
 
 		} else {
@@ -380,12 +380,12 @@ $errormsg = "";
 	if (isset($_POST["jobSubmit"])) {
 		unset($_POST["jobSubmit"]);
 
-		$job = mysql_real_escape_string(@$_POST["job"]);
+		$job = mysqli_real_escape_string($dbConnected, @$_POST["job"]);
 
 		// Updates users with new job
 		$userJob_update = "UPDATE users SET job='$job' WHERE ID='$userID'";
 
-		if (mysql_query($userJob_update)) {
+		if (mysqli_query($dbConnected, $userJob_update)) {
 			//have page reload so that if the user refreshes the page it does not resubmit the form
 
         	// Header is for localhost.  Does not work on live website
@@ -452,20 +452,20 @@ $errormsg = "";
  // If a time can be set, have it run at 3am EST.  That way it is also in the middle of the night for all US users (AJAX/JSON/jQuery??)
 
 	// Checking matches table for matches where current user is either the primary or matched user
-		$matchLastUpdate_sql = mysql_query("SELECT DAY( lastUpdate ) AS DAY,
+		$matchLastUpdate_sql = mysqli_query($dbConnected, "SELECT DAY( lastUpdate ) AS DAY,
 											   	   MONTH( lastUpdate ) AS MONTH,
 											   	   YEAR( lastUpdate ) AS YEAR
 											FROM matches
 											WHERE primaryUserID='$userID'
 											LIMIT 1");
-		$matchLastUpdate_array = mysql_fetch_array($matchLastUpdate_sql);
+		$matchLastUpdate_array = mysqli_fetch_array($matchLastUpdate_sql);
 		$matchLastUpdate = $matchLastUpdate_array['DAY'].$matchLastUpdate_array['MONTH'].$matchLastUpdate_array['YEAR'];
 
-		$matchCheck = mysql_query("SELECT * FROM matches WHERE primaryUserID='$userID'");
-		$matchCheck_num = mysql_num_rows($matchCheck);
+		$matchCheck = mysqli_query($dbConnected, "SELECT * FROM matches WHERE primaryUserID='$userID'");
+		$matchCheck_num = mysqli_num_rows($matchCheck);
 
-		$matchCheck2 = mysql_query("SELECT * FROM matches WHERE matchedUserID='$userID'");
-		$matchCheck2_num = mysql_num_rows($matchCheck2);
+		$matchCheck2 = mysqli_query($dbConnected, "SELECT * FROM matches WHERE matchedUserID='$userID'");
+		$matchCheck2_num = mysqli_num_rows($matchCheck2);
 
 		$totalMatches = $matchCheck_num + $matchCheck2_num;
 
@@ -476,8 +476,8 @@ $errormsg = "";
 			// Run matching script
 
 			// Determining total users in system from users state not including current user
-			$totalUserInfo = mysql_query("SELECT * FROM users WHERE (ID!='$userID' AND state='$userState')");
-			$totalUserCount = mysql_num_rows($totalUserInfo);
+			$totalUserInfo = mysqli_query($dbConnected, "SELECT * FROM users WHERE (ID!='$userID' AND state='$userState')");
+			$totalUserCount = mysqli_num_rows($totalUserInfo);
 
 			// Identifying climbing ranges of current user
 			$TRLow = $userData['topRopingLvl'] - 2;
@@ -496,17 +496,17 @@ $errormsg = "";
 				$rating = 0; // Starting off with a rating of 0, build points as script runs
 
 				// Grabbing info from users table
-				$potentialMatchInfo = mysql_query("SELECT * FROM users WHERE (ID!='$userID' AND state='$userState') LIMIT 1 OFFSET $i");
-				$potentialMatch = mysql_fetch_array($potentialMatchInfo);
+				$potentialMatchInfo = mysqli_query($dbConnected, "SELECT * FROM users WHERE (ID!='$userID' AND state='$userState') LIMIT 1 OFFSET $i");
+				$potentialMatch = mysqli_fetch_array($potentialMatchInfo);
 				$ID = $potentialMatch['ID'];
 
 				// Grabbing info from userdata table
-				$potentialDataInfo = mysql_query("SELECT * FROM userdata WHERE userID='$ID'");
-				$potentialData = mysql_fetch_array($potentialDataInfo);
+				$potentialDataInfo = mysqli_query($dbConnected, "SELECT * FROM userdata WHERE userID='$ID'");
+				$potentialData = mysqli_fetch_array($potentialDataInfo);
 
 				// Grabbing info from hobbies table
-				$potentialHobbiesInfo = mysql_query("SELECT * FROM hobbies WHERE userID='$ID'");
-				$potentialHobbies = mysql_fetch_array($potentialHobbiesInfo);
+				$potentialHobbiesInfo = mysqli_query($dbConnected, "SELECT * FROM hobbies WHERE userID='$ID'");
+				$potentialHobbies = mysqli_fetch_array($potentialHobbiesInfo);
 
 				// CHecking to see if users climbing levels and style match
 					// Climbing style
@@ -586,7 +586,7 @@ $errormsg = "";
 					$hiking = 0;
 					$camping = 0;
 
-					$hobbieMatch_sql = mysql_query("SELECT ( u1.rockClimbing = u2.rockClimbing ) AS $rockClimbing,
+					$hobbieMatch_sql = mysqli_query($dbConnected, "SELECT ( u1.rockClimbing = u2.rockClimbing ) AS $rockClimbing,
 													       ( u1.iceClimbing = u2.iceClimbing) AS $iceClimbing,
 													       ( u1.hiking = u2.hiking) AS $hiking,
 													       ( u1.camping = u2.camping) AS $camping
@@ -637,8 +637,8 @@ $errormsg = "";
 					// Checking how many rows are in the matches table
 					// Need to do this each loop as the table will be updated each loop
 					// This will act as a double check that there are no duplicate matches
-					$matches_sql = mysql_query("SELECT * FROM matches");
-					$matches_num = mysql_num_rows($matches_sql);
+					$matches_sql = mysqli_query($dbConnected, "SELECT * FROM matches");
+					$matches_num = mysqli_num_rows($matches_sql);
 
 					// Checking if matches table has any rows
 					if ($matches_num == 0) {
@@ -656,7 +656,7 @@ $errormsg = "";
 						$matches_Insert .= "'".$matchArray[$i]['gymMatch']."', ";
 						$matches_Insert .= "'".$matchArray[$i]['rating']."')";
 
-						if (mysql_query($matches_Insert)) {
+						if (mysqli_query($dbConnected, $matches_Insert)) {
 
 					 	} else {
 
@@ -678,8 +678,8 @@ $errormsg = "";
 						for ($x=0; $x < $matches_num; $x++) {
 
 							// Pulling match table row
-							$match_row_sql = mysql_query("SELECT * FROM matches LIMIT 1 OFFSET $x");
-							$match_row = mysql_fetch_array($match_row_sql);
+							$match_row_sql = mysqli_query($dbConnected, "SELECT * FROM matches LIMIT 1 OFFSET $x");
+							$match_row = mysqli_fetch_array($match_row_sql);
 							$rowID = $match_row['ID'];
 
 							// Checking if the row is a match for the current user and the matched user
@@ -701,7 +701,7 @@ $errormsg = "";
 							  	$matches_Update .= "rating='".$matchArray[$i]['rating']."'  ";
 							 	$matches_Update .= "WHERE ID='$rowID' ";
 
-							 	if (mysql_query($matches_Update)) {
+							 	if (mysqli_query($dbConnected, $matches_Update)) {
 
 							 		// Breaking out of for loop since row was found and updated
 							 		// Then parent loop can move onto next match user check
@@ -738,7 +738,7 @@ $errormsg = "";
 								$matches_Insert .= "'".$matchArray[$i]['gymMatch']."', ";
 								$matches_Insert .= "'".$matchArray[$i]['rating']."')";
 
-								if (mysql_query($matches_Insert)) {
+								if (mysqli_query($dbConnected, $matches_Insert)) {
 
 									// Breaking out of for loop since row was found and updated
 							 		// Then parent loop can move onto next match user check
@@ -768,11 +768,11 @@ $errormsg = "";
 			} // end of if checking for matches
 
 			// Checking matches table again for total matches as it was just updated
-			$matchCheck = mysql_query("SELECT * FROM matches WHERE primaryUserID='$userID'");
-			$matchCheck_num = mysql_num_rows($matchCheck);
+			$matchCheck = mysqli_query($dbConnected, "SELECT * FROM matches WHERE primaryUserID='$userID'");
+			$matchCheck_num = mysqli_num_rows($matchCheck);
 
-			$matchCheck2 = mysql_query("SELECT * FROM matches WHERE matchedUserID='$userID'");
-			$matchCheck2_num = mysql_num_rows($matchCheck2);
+			$matchCheck2 = mysqli_query($dbConnected, "SELECT * FROM matches WHERE matchedUserID='$userID'");
+			$matchCheck2_num = mysqli_num_rows($matchCheck2);
 
 			$totalMatches = $matchCheck_num + $matchCheck2_num;
 
@@ -787,15 +787,15 @@ $errormsg = "";
 						for ($i=0; $i < $matchCheck_num; $i++) {
 
 							// Grabbing info from matches table 1 row at a time
-							$matchInfo = mysql_query("SELECT * FROM matches WHERE primaryUserID='$userID' LIMIT 1 OFFSET $i");
-							$match = mysql_fetch_array($matchInfo);
+							$matchInfo = mysqli_query($dbConnected, "SELECT * FROM matches WHERE primaryUserID='$userID' LIMIT 1 OFFSET $i");
+							$match = mysqli_fetch_array($matchInfo);
 
 							// Grabbing the matched users ID
 							$matchID = $match['matchedUserID'];
 
 							// Grabbing the matched users info from the users table
-							$matchUserInfo = mysql_query("SELECT * FROM users WHERE ID='$matchID'");
-							$matchUser = mysql_fetch_array($matchUserInfo);
+							$matchUserInfo = mysqli_query($dbConnected, "SELECT * FROM users WHERE ID='$matchID'");
+							$matchUser = mysqli_fetch_array($matchUserInfo);
 
 							// Creatin match array with matched user ID, profile Pic, and what they matched on
 							$matchArray[$i]['matchID'] = $matchID;
@@ -819,15 +819,15 @@ $errormsg = "";
 							for ($i=$matchCheck2_num; $i < $totalMatches; $i++) {
 
 								// Grabbing info from matches table 1 row at a time
-								$matchInfo = mysql_query("SELECT * FROM matches WHERE matchedUserID='$userID' LIMIT 1 OFFSET $i");
-								$match = mysql_fetch_array($matchInfo);
+								$matchInfo = mysqli_query($dbConnected, "SELECT * FROM matches WHERE matchedUserID='$userID' LIMIT 1 OFFSET $i");
+								$match = mysqli_fetch_array($matchInfo);
 
 								// Grabbing the matched users ID
 								$matchID = $match['primaryUserID'];
 
 								// Grabbing the matched users info from the users table
-								$matchUserInfo = mysql_query("SELECT * FROM users WHERE ID='$matchID'");
-								$matchUser = mysql_fetch_array($matchUserInfo);
+								$matchUserInfo = mysqli_query($dbConnected, "SELECT * FROM users WHERE ID='$matchID'");
+								$matchUser = mysqli_fetch_array($matchUserInfo);
 
 								// Creatin match array with matched user ID, profile Pic, and what they matched on
 								$matchArray[$i]['matchID'] = $matchID;
@@ -852,15 +852,15 @@ $errormsg = "";
 						for ($i=0; $i < $matchCheck2_num; $i++) {
 
 							// Grabbing info from matches table 1 row at a time
-							$matchInfo = mysql_query("SELECT * FROM matches WHERE matchedUserID='$userID' LIMIT 1 OFFSET $i");
-							$match = mysql_fetch_array($matchInfo);
+							$matchInfo = mysqli_query($dbConnected, "SELECT * FROM matches WHERE matchedUserID='$userID' LIMIT 1 OFFSET $i");
+							$match = mysqli_fetch_array($matchInfo);
 
 							// Grabbing the matched users ID
 							$matchID = $match['primaryUserID'];
 
 							// Grabbing the matched users info from the users table
-							$matchUserInfo = mysql_query("SELECT * FROM users WHERE ID='$matchID'");
-							$matchUser = mysql_fetch_array($matchUserInfo);
+							$matchUserInfo = mysqli_query($dbConnected, "SELECT * FROM users WHERE ID='$matchID'");
+							$matchUser = mysqli_fetch_array($matchUserInfo);
 
 							// Creatin match array with matched user ID, profile Pic, and what they matched on
 							$matchArray[$i]['matchID'] = $matchID;
