@@ -12,112 +12,6 @@ $errormsg = "";
 		echo '<div class="alert alert-warning text-center" role="alert">Finish filling out your account settings <a href="./accountSettings">HERE!</a>.</div>';
 	}
 
-//For Updating Profile Picture
-	// Setting parameters for file upload
-	$target_dir = "./img/";
-	$uploadOk = "";
-	$profilePic = "";
-
-	if (isset($_POST["upload"])) {
-		unset($_POST["upload"]);
-
-		//Capturing image info
-		$target_file = $target_dir.basename($_FILES["fileToUpload"]["name"]); //specifies the path of the file to be uploaded
-		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION); //holds the file extension of the file
-
-		//Checking if image is an actual image
-		$imgCheck = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-		if ($imgCheck !== false) {
-			$uploadOk = 1;
-
-			//Checking to see if file already exists
-			if (file_exists($target_file)) {
-				$uploadOk = 0;
-			}
-
-			 // Check file size
-			if ($_FILES["fileToUpload"]["size"] > 500000) {
-			   	$errormsg = "Pictures must be less than 500KB.";
-					echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-			          			'.$errormsg.'
-			          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>';
-				    $uploadOk = 0;
-			}
-
-			// Allow certain file formats
-			if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-			&& $imageFileType != "gif" ) {
-			   	$errormsg = "Make sure your file is a jpg, jpeg, png, or gif format.";
-					echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-			          			'.$errormsg.'
-			          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>';
-				    $uploadOk = 0;
-			}
-
-		} else {
-		   	$errormsg = "Something looks wrong with your file.  Please select your image again.";
-				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-		          			'.$errormsg.'
-		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>';
-			    $uploadOk = 0;
-		}
-
-		// Check if $uploadOk is set to 0 by an error
-		if ($uploadOk == 0) {
-		   	$errormsg = "Sorry your file was not uploaded.";
-				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-				      			'.$errormsg.'
-				      			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>';
-
-			// if everything is ok, try to upload file
-		} else {
-
-			//Changes the filename to a unique name using the current time
-			$temp = explode(".", $_FILES["fileToUpload"]["name"]);
-			$newfilename = round(microtime(true)) . '.' . end($temp);
-			$target_file = $target_dir.$newfilename;
-
-		    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-		        $profilePic = $target_file;
-		        $profilePic_Update = "UPDATE users SET profilePic='$profilePic' WHERE username='$username'";
-
-		        if (mysqli_query($dbConnected, $profilePic_Update)) {
-							//have page reload so that if the user refreshes the page it does not resubmit the form
-							header("Location: account");
-
-		        } else {
-		        	$errormsg = "Sorry something went wrong with updating your information, please refresh page and try again.";
-							echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-					          			'.$errormsg.'
-					          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>';
-		        }
-		    } else {
-		        $errormsg = "Sorry something went wrong with the upload, please refresh page and try again.";
-						echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-				          			'.$errormsg.'
-				          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-								</div>';
-		    }
-		}
-	}
-
 
 	$profilePic = $userRow['profilePic'];
 	$fld_profilePic = '<img src="'.$profilePic.'" class="img-circle img-responsive" id="profilePic" alt="Responsive image">';
@@ -133,22 +27,10 @@ $errormsg = "";
 			$referralCode = $referralCode.$randomValue;
 		}
 
-		// HOW TO ADD A CHECK THAT VERIFIES IT IS UNIQUE.  NEEDS TO CONTINUE TO CYCLE THROUGH DB AND FOR LOOP
-		//
-		// $uniqueRC = mysql_query("SELECT * FROM users WHERE referralCode='$referralCode'");
-		// $uniqueRC_Num = mysql_num_rows($uniqueRC);
-
-
 		$referralCode_Update = "UPDATE users SET referralCode='$referralCode' WHERE username='$username'";
 
 		if (mysqli_query($dbConnected, $referralCode_Update)) {
-			//have page reload so that if the user refreshes the page it does not resubmit the form
-
-        	// Header is for localhost.  Does not work on live website
 			header("Location: account");
-
-			// Javascript is for live website.  Does not work on localhost
-			// echo '<script type="text/javascript"> window.location="www.therockpass.com/account"; </script>';
 
         } else {
         	$errormsg = "Sorry something went wrong with your referral code, please refresh page and try again.";

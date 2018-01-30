@@ -112,118 +112,6 @@ $errormsg = "";
 			}
 		}
 
-// For Updating Profile Picture
-	// Setting parameters for file upload
-	$target_dir = "./img/";
-	$uploadOk = "";
-	$profilePic = $userRow['profilePic'];;
-
-	// Checking if upload button was clicked
-	if (isset($_POST["upload"])) {
-		unset($_POST["upload"]);
-
-		//Capturing image info
-		$target_file = $target_dir.basename($_FILES["fileToUpload"]["name"]); //specifies the path of the file to be uploaded
-		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION); //holds the file extension of the file
-
-		//Checking if image is an actual image
-		$imgCheck = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-		if ($imgCheck !== false) {
-			$uploadOk = 1;
-
-			//Checking to see if file already exists
-			if (file_exists($target_file)) {
-				$uploadOk = 0;
-			}
-
-			 // Check file size
-			if ($_FILES["fileToUpload"]["size"] > 500000) {
-				$errormsg = "Pictures must be less than 500KB.";
-				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-		          			'.$errormsg.'
-		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>';
-			    $uploadOk = 0;
-			}
-
-			// Allow certain file formats
-			if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-			&& $imageFileType != "gif" ) {
-				$errormsg = "Make sure your file is a jpg, jpeg, png, or gif format.";
-				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-		          			'.$errormsg.'
-		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>';
-			    $uploadOk = 0;
-			}
-
-		} else {
-			$errormsg = "Something looks wrong with your file.  Please select your image again.";
-			echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-	          			'.$errormsg.'
-	          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>';
-		    $uploadOk = 0;
-		}
-
-		// Check if $uploadOk is set to 0 by an error
-		if ($uploadOk == 0) {
-			$errormsg = "Sorry your file was not uploaded.";
-			echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-	          			'.$errormsg.'
-	          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>';
-
-			// if everything is ok, try to upload file
-		} else {
-
-			//Changes the filename to a unique name using the current time
-			$temp = explode(".", $_FILES["fileToUpload"]["name"]);
-			$newfilename = round(microtime(true)) . '.' . end($temp);
-			$target_file = $target_dir.$newfilename;
-
-		    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-		        $profilePic = $target_file;
-		        $profilePic_Update = "UPDATE users SET profilePic='$profilePic' WHERE username='$username'";
-
-		        if (mysqli_query($dbConnected, $profilePic_Update)) {
-
-							echo '	<div class="alert alert-dismissable alert-success text-center" role="alert">
-					          			<strong>Success!</strong>  Your profile picture was uploaded!
-					          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>';
-
-		        } else {
-		        	$errormsg = "Sorry something went wrong with updating your information, please refresh page and try again.";
-							echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-					          			'.$errormsg.'
-					          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>';
-		        }
-		    } else {
-		        $errormsg = "Sorry something went wrong with the upload, please refresh page and try again.";
-						echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-				          			'.$errormsg.'
-				          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-								</div>';
-		    }
-		}
-	}
-
 	$fld_profilePic = '<img src="'.$profilePic.'" class="img-circle img-responsive" id="profilePic" alt="Responsive image">';
 
 // Climbing Ratings
@@ -593,7 +481,6 @@ $errormsg = "";
 		<br>
 		<ul class="nav nav-pills" role="tablist">
 			<li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
-			<!-- <li role="presentation"><a href="#profilePic" aria-controls="profilePic" role="tab" data-toggle="tab">Profile Picture</a></li> -->
 			<li role="presentation"><a href="#climbingStats" aria-controls="climbingStats" role="tab" data-toggle="tab">Climbing Stats</a></li>
 			<li role="presentation"><a href="#hobbies" aria-controls="hobbies" role="tab" data-toggle="tab">Hobbies</a></li>
 			<li><a href="./account">Back to Account</a></li>
@@ -669,17 +556,6 @@ $errormsg = "";
 	   			<?php endif; ?>
 
 	   			<br>
-
-	   			<div class="row">
-					<form action="<?php echo $thisScriptName; ?>" method="post" enctype="multipart/form-data">
-						<div class="form-group">
-						    <label for="fileToUpload">Update Profile Picture:</label>
-						    <input type="file" name="fileToUpload" id="fileToUpload">
-						</div>
-
-						<button type="submit" class="btn btn-primary" name="upload">Upload!</button>
-					</form>
-				</div>
 
 			</div>
 			<div role="tabpanel" class="tab-pane" id="climbingStats">
