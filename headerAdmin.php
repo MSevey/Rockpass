@@ -42,7 +42,7 @@ include("./inc/connectDB.php");
         <div class="navbar-header">
 
           <!-- This is the Brand and the link to the index page -->
-          <a class="navbar-brand" href="./profile">The Rock Pass</a>
+          <a class="navbar-brand" href="./account">The Rock Pass</a>
 
           <!-- This is the button to toggle the side bar menu -->
           <button type="button" class="navbar-menu-toggle">

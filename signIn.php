@@ -50,7 +50,7 @@ if (isset($_POST["signIn"])) {
 			//Starts session and sends users to index page
 			session_start();
 			// Header is for localhost.  Does not work on live website
-			header("location: profile");
+			header("location: account");
 
 			// Javascript is for live website.  Does not work on localhost
 			// echo '<script type="text/javascript"> window.location="www.therockpass.com/index"; </script>';
@@ -75,7 +75,7 @@ if (isset($_POST["signIn"])) {
 				//Starts session and sends users to index page
 				session_start();
 
-				header("location: profile");
+				header("location: account");
 
 			} else {
 
