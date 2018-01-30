@@ -1,25 +1,10 @@
 <?php
 
-//***********************************************************************
-//
-//  STATUS OF PAGE
-//
-//  1) Need to make all links fit in one drop down on the right of the navber.  Should be a 3 bar icon if possible.  Otherwise just "username"
-//
-//************************************************************************
-
-
-
 ob_start();
 
 date_default_timezone_set('America/New_York');
 
-
-
- ?>
-
-
-
+?>
 
 <!DOCTYPE html>
 <html lang="en">

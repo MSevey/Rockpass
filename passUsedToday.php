@@ -1,26 +1,12 @@
-<?php 
+<?php
 
-//**********************************************
-//  STATUS OF PAGE
-//
-//  This page shows users their QRCode that was generated today.
-//
-//
-//**********************************************
-
-
-
-
-//Contains connectDB.php, session_start and decides which header to display
-//Also contains $userRow and $password which are the users info from the users table and their last entry in the passes table
 include("./chooseHeader.php");
-
 
 // This is used with the form field below so that when click the script runs again.
 $thisScriptName = "passUsedToday";
 
 // sets error message to an empty highlight_string(str)
-$errormsg = ""; 
+$errormsg = "";
 
 $today = date("D-m-Y");
 
@@ -54,24 +40,24 @@ if (isset($_POST["emailPass"])) {
   $headers = "MIME-Version: 1.0" . "\r\n";
   $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
   $headers .= 'From: <passes@therockpass.com>' . "\r\n";
-  $headers .= 'Cc: matt@therockpass.com' . "\r\n";
+  // $headers .= 'Cc: matt@therockpass.com' . "\r\n";
 
   if (mail($to,$subject,$message,$headers)) {
-    $errormsg = "Your pass is in your inbox!"; 
+    $errormsg = "Your pass is in your inbox!";
     echo '  <div class="alert alert-dismissable alert-success text-center" role="alert">
                 '.$errormsg.'
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-        </div>'; 
+        </div>';
   } else {
-    $errormsg = "Oops there seems to be a problem.  The Email did not send."; 
+    $errormsg = "Oops there seems to be a problem.  The Email did not send.";
     echo '  <div class="alert alert-dismissable alert-danger text-center" role="alert">
                 '.$errormsg.'
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-        </div>'; 
+        </div>';
   }
 
 }
@@ -79,7 +65,7 @@ if (isset($_POST["emailPass"])) {
 
 
  ?>
-    
+
 <div class="container">
 
   <div class="jumbotron">
@@ -93,7 +79,7 @@ if (isset($_POST["emailPass"])) {
         <div class="col-md-6">
           <span class="glyphicon glyphicon-thumbs-up" style="font-size: 4em;"></span>
         </div>
-      </div> 
+      </div>
 
   </div>
 
@@ -107,7 +93,7 @@ if (isset($_POST["emailPass"])) {
       <button type="submit" class="btn btn-success btn-lg center-block" name="emailPass">
         Send me my Pass!
       </button>
-    </form>  
+    </form>
 
   </div>
 

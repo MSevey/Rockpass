@@ -1,21 +1,5 @@
 <?php
 
-/*********************************************
-  STATUS OF PAGE
-
-  Working
-  This page will eventually change to be where people can purchase passes
-
-  TO DO
-  1) Right now they get a warning that there are still passes in their name
-      - Need a way from them to confirm and continue with the purchase
-
-*********************************************/
-
-
-
-//Contains connectDB.php, session_start and decides which header to display
-//Also contains $userRow and $password which are the users info from the users table and their last entry in the passes table
 include("./chooseHeader.php");
 
 
@@ -107,14 +91,6 @@ if(isset($_POST["reloadPasses"])) {
 
       <div class="row">
         <form action="<?php echo $thisScriptName; ?>" method="post">
-          <!-- <div class="form-group">
-            <label for="referralCode">Referral Code?</label>
-            <input type="text" class="form-control" value="referralCode" name="referralCode"/>
-          </div>
-
-          <div class="checkbox">
-            <label><input type="checkbox" name="accessFund" value="Yes"> Donate $1 to the Access Fund?</label>
-          </div> -->
 
           <button type="submit" class="btn btn-primary btn-lg center-block" name="reloadPasses" id="reloadPasses">
             Reload Passes

@@ -1,22 +1,5 @@
 <?php
 
-/*****************************************
-  STATUS OF PAGE
-
-  This page pulls the MA based gyms and displays them in a table.
-  It pulls MA based on the users state
-
-  TO DOs
-  -add state drop down so people can select a state
-  -eventually this will be an interactive map with the
-    gym locations on it (google maps plugin)
-
-
-******************************************/
-
-
-//Contains connectDB.php and decides which header to display
-//Also contains $userRow and $password which are the users info from the users table and their last entry in the passes table
 include("./chooseHeader.php");
 
 

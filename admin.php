@@ -1,13 +1,10 @@
-<?php 
+<?php
 
-
-//Contains connectDB.php, session_start and decides which header to display
-//Also contains $userRow and $password which are the users info from the users table and their last entry in the passes table
 include("./chooseHeader.php");
 
 
 ?>
-    
+
 <div class="container">
 
   <div class="jumbotron">
@@ -18,11 +15,11 @@ include("./chooseHeader.php");
       <button type="button" class="btn btn-default" id="passesPurchased">Passes Purchased</button>
       <button type="button" class="btn btn-default" id="totalUsers">Total Users</button>
       <button type="button" class="btn btn-default" id="popularGym">Most visited Gym</button>
-      <button type="button" class="btn btn-default" id="first50">First 50 Users</button> 
+      <button type="button" class="btn btn-default" id="first50">First 50 Users</button>
       <button type="button" class="btn btn-default" id="peakHours">Peak Hours</button>
       <button type="button" class="btn btn-default" id="slackUsers">Inconsistent Users</button>
       <button type="button" class="btn btn-default" id="monthTrends">Monthly Trends</button>
-      <a href="./gymPayment">Gym Payment</a>
+
     </div>
 
   </div>

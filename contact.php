@@ -1,17 +1,5 @@
 <?php
 
-//************************************************
-//
-//	STATUS OF PAGE
-//
-//
-//
-//************************************************
-
-
-
-//Contains connectDB.php and decides which header to display
-//Also contains session_start(), $userRow and $password which are the users info from the users table and their last entry in the passes table
 include("./chooseHeader.php");
 
 
