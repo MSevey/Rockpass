@@ -1,20 +1,22 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.7.1
--- http://www.phpmyadmin.net
+-- version 4.7.7
+-- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Oct 20, 2015 at 01:51 AM
--- Server version: 5.6.20
--- PHP Version: 5.5.15
+-- Host: localhost
+-- Generation Time: Dec 28, 2017 at 07:48 PM
+-- Server version: 5.7.20
+-- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `rpassdb`
@@ -23,46 +25,74 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `email`
---
-
-CREATE TABLE IF NOT EXISTS `email` (
-`ID` int(11) NOT NULL,
-  `fromName` varchar(50) NOT NULL,
-  `fromEmail` varchar(50) NOT NULL,
-  `subject` varchar(50) NOT NULL,
-  `message` varchar(500) NOT NULL,
-  `toEmail` varchar(50) NOT NULL,
-  `sent` varchar(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `gyms`
 --
 
-CREATE TABLE IF NOT EXISTS `gyms` (
-`ID` int(11) NOT NULL,
-  `gymName` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL DEFAULT 'password' COMMENT 'Set to password, then gyms can change it',
-  `state` varchar(50) NOT NULL,
-  `shortName` varchar(50) NOT NULL COMMENT 'This is the abbreviated name',
-  `stAddress` varchar(100) NOT NULL,
-  `zipCode` int(10) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `phone` int(20) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+CREATE TABLE `gyms` (
+  `ID` int(25) NOT NULL,
+  `email` varchar(25) NOT NULL,
+  `gymName` varchar(25) NOT NULL,
+  `shortName` varchar(25) NOT NULL,
+  `state` varchar(25) NOT NULL,
+  `stAddress` varchar(50) NOT NULL,
+  `zipCode` varchar(10) NOT NULL,
+  `phone` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `gyms`
 --
 
-INSERT INTO `gyms` (`ID`, `gymName`, `password`, `state`, `shortName`, `stAddress`, `zipCode`, `email`, `phone`) VALUES
-(1, 'Metro Rock', 'password', 'MA', 'MetroEverett', 'something', 12345, 'something', 123),
-(2, 'Rock Spot', 'password', 'MA', 'RSpotSB', 'something', 12345, 'something', 123),
-(3, 'Brooklyn Boulders', 'password', 'MA', 'BKBSomm', 'something', 12345, 'something', 123),
-(4, 'Central Rock', 'password', 'MA', 'CentralRockBoston', 'something', 12345, 'something', 123);
+INSERT INTO `gyms` (`ID`, `email`, `gymName`, `shortName`, `state`, `stAddress`, `zipCode`, `phone`) VALUES
+(1, 'rockspot@rockspot.com', 'RockSpot', 'RSpot', 'MA', 'South Boston', '2127', '1234567890'),
+(2, 'metro@metrorock.com', 'MetroRock', 'Metro', 'MA', 'Evertt', '12345', '1234567890'),
+(3, 'crg@crg.com', 'Central Rock Gym', 'CRG', 'MA', 'Watertown', '02472', '3214560987'),
+(4, 'bkb@bkb.com', 'Brooklyn Boulders', 'BKBSomm', 'MA', 'Sommerville', '01289', '4561237890');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hobbies`
+--
+
+CREATE TABLE `hobbies` (
+  `userID` int(25) NOT NULL,
+  `lastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `rockClimbing` int(5) DEFAULT NULL,
+  `iceClimbing` int(5) DEFAULT NULL,
+  `hiking` int(5) DEFAULT NULL,
+  `camping` int(5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `hobbies`
+--
+
+INSERT INTO `hobbies` (`userID`, `lastUpdate`, `rockClimbing`, `iceClimbing`, `hiking`, `camping`) VALUES
+(1, '2017-12-27 22:26:43', 1, 1, 1, 1),
+(2, '2017-12-28 19:12:35', 1, 0, 1, 0),
+(3, '2017-12-28 19:23:50', 1, 1, 1, 1),
+(4, '2017-12-28 19:46:04', NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `matches`
+--
+
+CREATE TABLE `matches` (
+  `ID` int(25) NOT NULL,
+  `matchedUserID` int(11) NOT NULL,
+  `primaryUserID` int(11) NOT NULL,
+  `hobbieMatch` int(5) DEFAULT NULL,
+  `styleMatch` int(5) DEFAULT NULL,
+  `boulderMatch` int(5) DEFAULT NULL,
+  `TRMatch` int(5) DEFAULT NULL,
+  `leadMatch` int(5) DEFAULT NULL,
+  `gymMatch` int(5) DEFAULT NULL,
+  `rating` int(5) DEFAULT NULL,
+  `lastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -70,32 +100,88 @@ INSERT INTO `gyms` (`ID`, `gymName`, `password`, `state`, `shortName`, `stAddres
 -- Table structure for table `passes`
 --
 
-CREATE TABLE IF NOT EXISTS `passes` (
-`ID` int(11) NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `rockGym` varchar(50) NOT NULL,
-  `dateDay` date NOT NULL,
-  `dateTime` datetime NOT NULL,
-  `passesUsed` int(25) NOT NULL COMMENT 'This is the number of day passes used',
-  `passesAvail` int(25) NOT NULL COMMENT 'This is the number of day passes available',
-  `packsPurchased` int(25) NOT NULL COMMENT 'This is the number of Rock Passes Purchased',
-  `emailSent` varchar(5) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=76 ;
+CREATE TABLE `passes` (
+  `ID` int(25) NOT NULL,
+  `userID` int(25) NOT NULL,
+  `datePurchased` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dateUsed` timestamp NULL DEFAULT NULL,
+  `emailSent` varchar(25) DEFAULT NULL,
+  `rockGym` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `passes`
 --
 
-INSERT INTO `passes` (`ID`, `username`, `rockGym`, `dateDay`, `dateTime`, `passesUsed`, `passesAvail`, `packsPurchased`, `emailSent`) VALUES
-(66, 'MSevey', '', '0000-00-00', '0000-00-00 00:00:00', 0, 10, 1, ''),
-(67, 'MSevey', 'RSpotSB', '2015-10-04', '2015-10-04 10:18:15', 10, 10, 2, 'Yes'),
-(68, 'MSevey', 'CentralRockBoston', '2015-10-05', '2015-10-05 12:49:10', 11, 9, 0, 'Yes'),
-(69, 'MSevey', 'BKBSomm', '2015-10-08', '2015-10-08 01:21:51', 13, 10, 2, 'Yes'),
-(70, 'MSevey', 'MetroEverett', '2015-10-16', '2015-10-16 07:36:37', 14, 9, 0, 'Yes'),
-(71, 'OSevey', '', '0000-00-00', '0000-00-00 00:00:00', 0, 10, 1, ''),
-(72, 'OSevey', 'RSpotSB', '2015-10-16', '2015-10-16 07:39:34', 0, 10, 0, 'No'),
-(73, 'MSevey', 'BKBSomm', '2015-10-17', '2015-10-17 09:05:56', 16, 7, 0, 'Yes'),
-(75, 'MSevey', 'Brooklyn Boulders in Sommerville', '2015-10-18', '2015-10-18 08:36:44', 17, 10, 1, 'Yes');
+INSERT INTO `passes` (`ID`, `userID`, `datePurchased`, `dateUsed`, `emailSent`, `rockGym`) VALUES
+(1, 1, '2017-12-27 22:50:40', '2017-12-27 23:03:14', 'Yes', 'RSpot'),
+(2, 1, '2017-12-27 22:50:40', '2017-12-28 19:11:31', 'Yes', 'Metro'),
+(3, 1, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(4, 1, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(5, 1, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(6, 1, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(7, 1, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(8, 1, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(9, 1, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(10, 1, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(11, 2, '2017-12-27 22:50:40', '2017-12-28 19:15:16', 'Yes', 'Metro'),
+(12, 2, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(13, 2, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(14, 2, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(15, 2, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(16, 2, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(17, 2, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(18, 2, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(19, 2, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(20, 2, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(21, 3, '2017-12-27 22:50:40', '2017-12-28 19:44:13', 'Yes', 'CRG'),
+(22, 3, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(23, 3, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(24, 3, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(25, 3, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(26, 3, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(27, 3, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(28, 3, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(29, 3, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(30, 3, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(31, 4, '2017-12-27 22:50:40', '2017-12-28 19:46:20', 'Yes', 'BKBSomm'),
+(32, 4, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(33, 4, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(34, 4, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(35, 4, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(36, 4, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(37, 4, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(38, 4, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(39, 4, '2017-12-27 22:50:40', NULL, NULL, NULL),
+(40, 4, '2017-12-27 22:50:40', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `userdata`
+--
+
+CREATE TABLE `userdata` (
+  `userID` int(25) NOT NULL,
+  `lastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `preferedStyle` varchar(25) DEFAULT NULL,
+  `boulderinglvl` int(5) DEFAULT NULL,
+  `topRopinglvl` int(5) DEFAULT NULL,
+  `leadinglvl` int(5) DEFAULT NULL,
+  `yearsClimbing` int(5) DEFAULT NULL,
+  `percVisit` double DEFAULT NULL,
+  `mostVisitGym` varchar(25) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `userdata`
+--
+
+INSERT INTO `userdata` (`userID`, `lastUpdate`, `preferedStyle`, `boulderinglvl`, `topRopinglvl`, `leadinglvl`, `yearsClimbing`, `percVisit`, `mostVisitGym`) VALUES
+(3, '2017-12-28 19:30:51', 'Lead Climbing', 5, 17, 11, 5, NULL, NULL),
+(1, '2017-12-28 19:32:35', 'Lead Climbing', 5, 18, 13, 12, NULL, NULL),
+(2, '2017-12-28 19:35:54', 'Lead Climbing', 4, 17, 12, 4, NULL, NULL),
+(4, '2017-12-28 19:46:04', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -103,79 +189,75 @@ INSERT INTO `passes` (`ID`, `username`, `rockGym`, `dateDay`, `dateTime`, `passe
 -- Table structure for table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
-  `fName` varchar(50) NOT NULL,
-  `lName` varchar(50) NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
+CREATE TABLE `users` (
+  `ID` int(11) NOT NULL,
+  `fName` varchar(25) DEFAULT NULL,
+  `lName` varchar(25) DEFAULT NULL,
+  `username` varchar(25) NOT NULL,
+  `email` varchar(25) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `state` varchar(10) NOT NULL,
-`ID` int(11) NOT NULL,
-  `signDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `admin` varchar(5) NOT NULL DEFAULT 'No'
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
+  `state` varchar(25) NOT NULL,
+  `job` varchar(25) DEFAULT NULL,
+  `referralCode` varchar(10) NOT NULL,
+  `profilePic` varchar(25) DEFAULT './img/Empty_Profile.png',
+  `admin` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`fName`, `lName`, `username`, `email`, `password`, `state`, `ID`, `signDate`, `admin`) VALUES
-('Matthew', 'Sevey', 'MSevey', 'mjsevey@gmail.com', 'aebc7dfafde486758efb13d78f7219fd', 'MA', 15, '2015-09-26 18:36:35', 'Yes'),
-('Olivia', 'Sevey', 'OSevey', 'oliviasevey@gmail.com', 'edac7e113177922b08c9e611e8219c93', 'MA', 17, '2015-09-26 19:36:38', 'No'),
-('test', 'test', 'test', 'test', '4f0b36a34946153c358f8b243428a1eb', 'AL', 23, '2015-10-07 12:34:02', 'No');
+INSERT INTO `users` (`ID`, `fName`, `lName`, `username`, `email`, `password`, `state`, `job`, `referralCode`, `profilePic`, `admin`) VALUES
+(1, 'Matthew', 'Sevey', 'MJSevey', 'mjsevey@gmail.com', 'c06db68e819be6ec3d26c6038d8e8d1f', 'MA', 'Engineer', 'ricn6h', NULL, 'Yes'),
+(2, 'test', 'user 1', 'test@test.com', 'test@test.com', 'c06db68e819be6ec3d26c6038d8e8d1f', 'MA', 'Student', 'uavgpw', './img/Empty_Profile.png', NULL),
+(3, 'test 2', 'user 2', 'test1', 'test1@test.com', 'c06db68e819be6ec3d26c6038d8e8d1f', 'MA', 'Engineer', 'frqh2c', './img/Empty_Profile.png', NULL),
+(4, 'test', 'user3', 'test2', 'test2@test.com', 'c06db68e819be6ec3d26c6038d8e8d1f', 'MA', 'Student', 'flssou', './img/Empty_Profile.png', NULL);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `email`
---
-ALTER TABLE `email`
- ADD PRIMARY KEY (`ID`);
-
---
 -- Indexes for table `gyms`
 --
 ALTER TABLE `gyms`
- ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indexes for table `passes`
 --
 ALTER TABLE `passes`
- ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
- ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `email`
---
-ALTER TABLE `email`
-MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT for table `gyms`
 --
 ALTER TABLE `gyms`
-MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `ID` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
 -- AUTO_INCREMENT for table `passes`
 --
 ALTER TABLE `passes`
-MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=76;
+  MODIFY `ID` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
