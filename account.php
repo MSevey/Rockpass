@@ -299,8 +299,6 @@ $errormsg = "";
 
 <?php 	// Matching script
 
- // If a time can be set, have it run at 3am EST.  That way it is also in the middle of the night for all US users (AJAX/JSON/jQuery??)
-
 	// Checking matches table for matches where current user is either the primary or matched user
 		$matchLastUpdate_sql = mysqli_query($dbConnected, "SELECT DAY( lastUpdate ) AS DAY,
 											   	   MONTH( lastUpdate ) AS MONTH,
@@ -454,7 +452,7 @@ $errormsg = "";
 					$rating = $styleMatch + $TRMatch + $boulderMatch + $leadMatch + $gymMatch;
 
 				// Checking whether the match is a good match
-					if ($rating >= 5) {
+					if ($rating >= 2) {
 						// Creating match array with matched user ID, profile Pic, and what they matched on
 						// Uing $y as array counter instead of $y as not all users will be matches so there would have been gaps in the incrementing of $i
 						$matchArray[$y]['matchID'] = $ID; //matches users ID not current users ID
