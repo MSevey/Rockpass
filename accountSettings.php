@@ -226,11 +226,67 @@ $errormsg = "";
 
 	$fld_profilePic = '<img src="'.$profilePic.'" class="img-circle img-responsive" id="profilePic" alt="Responsive image">';
 
+// Climbing Ratings
+	$climbs = [
+		'0' => '5.0',
+		'1' => '5.1',
+		'2' => '5.2',
+		'3' => '5.3',
+		'4' => '5.4',
+		'5' => '5.5',
+		'6' => '5.6',
+		'7' => '5.7',
+		'8' => '5.8',
+		'9' => '5.9',
+		'10' => '5.10a',
+		'11' => '5.10b',
+		'12' => '5.10c',
+		'13' => '5.10d',
+		'14' => '5.11a',
+		'15' => '5.11b',
+		'16' => '5.11c',
+		'17' => '5.11d',
+		'18' => '5.12a',
+		'19' => '5.12b',
+		'20' => '5.12c',
+		'21' => '5.12d',
+		'22' => '5.13a',
+		'23' => '5.13b',
+		'24' => '5.13c',
+		'25' => '5.13d',
+		'26' => '5.14a',
+		'27' => '5.14b',
+		'28' => '5.14c',
+		'29' => '5.14d',
+		'30' => '5.15a',
+		'31' => '5.15b',
+		'32' => '5.15c',
+		'33' => '5.15d'
+	];
+
+	$boulders = [
+		'0' => 'V0',
+		'1' => 'V1',
+		'2' => 'V2',
+		'3' => 'V3',
+		'4' => 'V4',
+		'5' => 'V5',
+		'6' => 'V6',
+		'7' => 'V7',
+		'8' => 'V8',
+		'9' => 'V9',
+		'10' => 'V10',
+		'11' => 'V11',
+		'12' => 'V12',
+		'13' => 'V13',
+		'14' => 'V14'
+	];
+
 // For updating climbing stats
 	$preferedStyle = $userData['preferedStyle'];
-	$boulderinglvl = $userData['boulderingLvl'];
-	$topRopinglvl = $userData['topRopingLvl'];
-	$leadinglvl = $userData['leadingLvl'];
+	$boulderinglvl = $boulders[$userData['boulderinglvl']];
+	$topRopinglvl = $climbs[$userData['topRopinglvl']];
+	$leadinglvl = $climbs[$userData['leadinglvl']];
 	$yearsClimbing = $userData['yearsClimbing'];
 
 	// Checking if climbing update stats button was clicked
@@ -641,7 +697,6 @@ $errormsg = "";
 
 						<div class="form-group">
 							<label for="boulderinglvl">Bouldering Level</label>
-							<?php echo $userData['boulderingLvl']; ?>
 							<?php echo $fld_boulderinglvl; ?>
 						</div>
 
@@ -660,10 +715,6 @@ $errormsg = "";
 							<?php echo $fld_yearClimbing; ?>
 						</div>
 
-						<!-- Looking for new friends/partners
-								this would enable sending notification of matches in stead of just displaying suggestions
-							-->
-
 						<br>
 						<button type="submit" class="btn btn-primary" name="stats">Update Stats!</button>
 
@@ -680,7 +731,6 @@ $errormsg = "";
 
 					<form action="<?php echo $thisScriptName; ?>" method="post">
 
-						<!-- This should insert a row for the user then change columns from NULL to 1 or yes -->
 						<div class="checkbox">
 							<?php echo $fld_rockClimbing; ?>
 						</div>
