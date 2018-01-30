@@ -112,6 +112,15 @@ $errormsg = "";
 			}
 		}
 
+
+		// Checks to see if the selected to delete account
+			if (isset($_POST["delete"])) {
+				unset($_POST["delete"]);
+
+				header("location: delete");
+
+			}
+
 	$fld_profilePic = '<img src="'.$profilePic.'" class="img-circle img-responsive" id="profilePic" alt="Responsive image">';
 
 // Climbing Ratings
@@ -539,6 +548,9 @@ $errormsg = "";
 
 						<br>
 						<button type="submit" class="btn btn-primary" name="update">Update Info!</button>
+						<br>
+						<br>
+						<button type="submit" class="btn btn-danger" name="delete">Delete Account</button>
 
 					</form>
 
