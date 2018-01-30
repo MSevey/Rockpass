@@ -337,7 +337,7 @@ $errormsg = "";
 
 					// Displaying matches profile pictures
 					// SHould also display the characterisitcis that make them a good match (ie style, level, gym)
-					for ($i=0; $i < $totalMatches; $i++) {
+					for ($i=0; $i < sizeof($matchArray); $i++) {
 
 						$matchfName = $matchArray[$i]['fName'];
 						$matchlName = $matchArray[$i]['lName'];
