@@ -1,12 +1,10 @@
-<?php 
+<?php
 
-//Contains connectDB.php and decides which header to display
-//Also contains $userRow and $password which are the users info from the users table and their last entry in the passes table
 include("./chooseHeader.php");
 
 $today = date("M-d-Y");
 $gym = "MetroRock";
-  
+
 
 ?>
 

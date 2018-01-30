@@ -1,17 +1,5 @@
 <?php
 
-
-/**************************************
-  STATUS OF PAGE
-  -
-
-
-****************************************/
-
-
-
-//Contains connectDB.php, session_start and decides which header to display
-//Also contains $userRow and $password which are the users info from the users table and their last entry in the passes table
 include("./chooseHeader.php");
 
 
@@ -121,21 +109,13 @@ if (isset($_POST["emailPass"])) {
 
     } else {
       // User has no passes available
-      // Header is for localhost.  Does not work on live website
       header("Location: noPass");
-
-      // Javascript is for live website.  Does not work on localhost
-      // echo '<script type="text/javascript"> window.location="www.therockpass.com/noPass"; </script>';
 
     }
 
   } else {
       // User has already used a pass today
-      // Header is for localhost.  Does not work on live website
       header("Location: passUsedToday");
-
-      // Javascript is for live website.  Does not work on localhost
-      // echo '<script type="text/javascript"> window.location="www.therockpass.com/passUsedToday"; </script>';
 
   }
 
@@ -148,9 +128,6 @@ $fld_rockGym = '<select name="rockGym" class="form-control" required>
                   <option value="BKBSomm">BKB</option>
                   <option value="CRG">CRG</option>
                 </select>';
-
-
-
 
 ?>
 

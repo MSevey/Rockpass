@@ -1,22 +1,5 @@
 <?php
 
-/**********************************************************************
-
-	STATUS OF PAGE
- 	Edited 12/15/15 to only ask for email and password and state
-
-	TO DOs
-	-obscate encode and decode (option for password)
-	-direct to profile page after and have alert asking for additional info
-	-Add ability to sign in with facebook
-
-
-
-************************************************************************/
-
-
-
-
 session_start();
 
 include("./inc/connectDB.php");
@@ -130,11 +113,7 @@ unset($_POST["signUp"]);
 									//Starts session and sends users to index page
 									session_start();
 
-								    // Header is for localhost.  Does not work on live website
 									header("Location: account");
-
-									// Javascript is for live website.  Does not work on localhost
-									// echo '<script type="text/javascript"> window.location="www.therockpass.com/account"; </script>';
 
 								} else {
 									$errormsg = "Oops! Something went wrong. Please reload the page and try again.";

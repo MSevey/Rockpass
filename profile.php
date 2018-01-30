@@ -1,20 +1,5 @@
 <?php
 
-/************************************************
-	STATUS OF PAGE
-	In Progress
-
-	TO DOs
-	1) Error with match info on my profile
-
-
-
-
-************************************************/
-
-//Contains connectDB.php and decides which header to display
-//Also contains session_start(), $userRow and $passRow which are the users info from the users table and their last entry in the passes table
-//Contains userRow, passRow, gymRow
 include("./chooseHeader.php");
 
 $thisScriptName = "userProfile.php";
@@ -29,11 +14,8 @@ $errormsg = "";
 			$userCheck = $_GET['username'];
 
 			if ($userCheck == $username) {
-				// Header is for localhost.  Does not work on live website
+				
 				header("location: account");
-
-				// Javascript is for live website.  Does not work on localhost
-				// echo '<script type="text/javascript"> window.location="www.therockpass.com/account"; </script>';
 
 			}
 

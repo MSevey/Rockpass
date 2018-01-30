@@ -1,17 +1,5 @@
 <?php
 
-/************************************************
-
-	STATUS OF PAGE
-	Working
-
-
-************************************************/
-
-
-
-//Contains connectDB.php, session_start and decides which header to display
-//Also contains $userRow and $password which are the users info from the users table and their last entry in the passes table
 include("./chooseHeader.php");
 
 
@@ -120,12 +108,7 @@ unset($_POST["save"]);
 
 								//Checks to make sure insert statement worked.
 								if (mysqli_query($dbConnected, $users_Update)) {
-								    // Header is for localhost.  Does not work on live website
-									//header("Location: thankYou");
-
-									// Javascript is for live website.  Does not work on localhost
-									// echo '<script type="text/javascript"> window.location="www.therockpass.com/thankyou"; </script>';
-
+	
 									echo '<div class="container">
 
 											  <div class="jumbotron">

@@ -1,27 +1,5 @@
 <?php
 
-/************************************************
-	STATUS OF PAGE
-	In Progress
-	**this will then be modified slightly to be converting to a gym account page***
-
-	TO DOs
-	1)
-	2) Set up "About" section that displays stats, hobbies, etc
-		a) Have link to account settings to edit or ability to edit
-	3) Matches
-		a) add matching based on Times available (times passes used)
-		b) add username to profile pic of matches
-		c) Also list hobbies with profile pic. Maybe have pic expand/grow and reveal hobbies
-
-
-************************************************/
-
-
-
-//Contains connectDB.php and decides which header to display
-//Also contains session_start(), $userRow and $passRow which are the users info from the users table and their last entry in the passes table
-//Contains userRow, passRow, gymRow
 include("./chooseHeader.php");
 
 $thisScriptName = "account.php";
@@ -59,20 +37,31 @@ $errormsg = "";
 
 			 // Check file size
 			if ($_FILES["fileToUpload"]["size"] > 500000) {
-			   $errormsg = "Pictures must be less than 500KB.";
-				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-		          			'.$errormsg.'
-		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>';
-			    $uploadOk = 0;
+			   	$errormsg = "Pictures must be less than 500KB.";
+					echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
+			          			'.$errormsg.'
+			          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>';
+				    $uploadOk = 0;
 			}
 
 			// Allow certain file formats
 			if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 			&& $imageFileType != "gif" ) {
-			   $errormsg = "Make sure your file is a jpg, jpeg, png, or gif format.";
+			   	$errormsg = "Make sure your file is a jpg, jpeg, png, or gif format.";
+					echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
+			          			'.$errormsg.'
+			          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>';
+				    $uploadOk = 0;
+			}
+
+		} else {
+		   	$errormsg = "Something looks wrong with your file.  Please select your image again.";
 				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
 		          			'.$errormsg.'
 		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -80,28 +69,17 @@ $errormsg = "";
 							</button>
 						</div>';
 			    $uploadOk = 0;
-			}
-
-		} else {
-		   $errormsg = "Something looks wrong with your file.  Please select your image again.";
-			echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-	          			'.$errormsg.'
-	          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>';
-		    $uploadOk = 0;
 		}
 
 		// Check if $uploadOk is set to 0 by an error
 		if ($uploadOk == 0) {
-		   $errormsg = "Sorry your file was not uploaded.";
-			echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-	          			'.$errormsg.'
-	          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>';
+		   	$errormsg = "Sorry your file was not uploaded.";
+				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
+				      			'.$errormsg.'
+				      			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>';
 
 			// if everything is ok, try to upload file
 		} else {
@@ -116,31 +94,26 @@ $errormsg = "";
 		        $profilePic_Update = "UPDATE users SET profilePic='$profilePic' WHERE username='$username'";
 
 		        if (mysqli_query($dbConnected, $profilePic_Update)) {
-					//have page reload so that if the user refreshes the page it does not resubmit the form
-
-		        	// Header is for localhost.  Does not work on live website
-					header("Location: account");
-
-					// Javascript is for live website.  Does not work on localhost
-					// echo '<script type="text/javascript"> window.location="www.therockpass.com/account"; </script>';
+							//have page reload so that if the user refreshes the page it does not resubmit the form
+							header("Location: account");
 
 		        } else {
 		        	$errormsg = "Sorry something went wrong with updating your information, please refresh page and try again.";
-					echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-			          			'.$errormsg.'
-			          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>';
+							echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
+					          			'.$errormsg.'
+					          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>';
 		        }
 		    } else {
 		        $errormsg = "Sorry something went wrong with the upload, please refresh page and try again.";
-				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-		          			'.$errormsg.'
-		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>';
+						echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
+				          			'.$errormsg.'
+				          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>';
 		    }
 		}
 	}
@@ -179,12 +152,12 @@ $errormsg = "";
 
         } else {
         	$errormsg = "Sorry something went wrong with your referral code, please refresh page and try again.";
-			echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-	          			'.$errormsg.'
-	          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>';
+					echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
+			          			'.$errormsg.'
+			          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>';
         }
 
 
@@ -322,17 +295,12 @@ $errormsg = "";
 
 				    <?php
 
-						for ($i=0; $i < $gymUserStateNum; $i++) {
-							echo '<tr>
-							        <td>'.$gymArray[$i]['gymName'].'</td>
-							        <td class="text-center">'.$gymArray[$i]['visits'].'</td>
-							      </tr>';
-							// echo '<tr>
-							//         <td>'.$gymArray[$i]['gymName'].'</td>
-							//         <td class="text-center">'.$gymArray[$i]['visits'].'</td>
-							//         <td class="text-right">Link to gyms page</td>
-							//       </tr>';
-						}
+							for ($i=0; $i < $gymUserStateNum; $i++) {
+								echo '<tr>
+								        <td>'.$gymArray[$i]['gymName'].'</td>
+								        <td class="text-center">'.$gymArray[$i]['visits'].'</td>
+								      </tr>';
+							}
 
 				    ?>
 

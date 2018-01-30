@@ -1,30 +1,10 @@
 <?php
 
-/********************************************************
-
-  STATUS OF PAGE
-  -Identifies if someone is logged in and who the user is.
-  -Makes sure there are entries for the user in all relavent tables
-  -Pulls the following user info
-    -$userRow : users info from users table
-      -$userID : current users ID
-      -$username : current users username
-    -$passRow : users info from the last used pass
-      -$passNumRows : number of available passes
-      -$passPack[][] : current 10 pack of passes
-    -$gymRow : pulls gyms info from gyms table
-    -$userData : users info from userData table
-      -$dataLastUpdate : date of last update of userdata
-    -$UserHobbies : users info from hobbies table
-      -$hobbiesLastUpdate : date of last update of hobbies
-
-********************************************************/
-
 session_start();
 
 include("./inc/connectDB.php");
 
-
+// Checking for logged in user
 if (isset($_SESSION["username_login"])) {
   $session = true;
 
@@ -172,16 +152,6 @@ if (isset($_SESSION["username_login"])) {
 
     }
 
-
-} elseif (isset($_SESSION["gym_login"])) {
-
-  $gymName = $_SESSION["gym_login"];
-
-  // Grab gym information
-  $gymInfo = mysqli_query($dbConnected, "SELECT * FROM gyms WHERE gymName='$gymName'");
-  $gymRow = mysqli_fetch_array($gymInfo);
-
-  include ("./headerGym.php");
 
 } else {
   $session = false;

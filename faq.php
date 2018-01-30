@@ -1,13 +1,10 @@
-<?php 
+<?php
 
-
-//Contains connectDB.php and decides which header to display
-//Also contains $userRow and $password which are the users info from the users table and their last entry in the passes table
 include("./chooseHeader.php");
-  
+
 
 ?>
-    
+
 <div class="container">
 
   <div class="row">
@@ -83,7 +80,7 @@ include("./chooseHeader.php");
 
   <br>
   <br>
-  <br> 
+  <br>
 
   <div class="row">
 

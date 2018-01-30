@@ -1,19 +1,5 @@
 <?php
 
-/************************************************
-
-	STATUS OF PAGE
-	Working
-
-	TO DOs
-	1)
-
-************************************************/
-
-
-
-//Contains connectDB.php, session_start and decides which header to display
-//Also contains $userRow and $password which are the users info from the users table and their last entry in the passes table
 include("./chooseHeader.php");
 
 
@@ -210,30 +196,30 @@ $errormsg = "";
 
 		        if (mysqli_query($dbConnected, $profilePic_Update)) {
 
-					echo '	<div class="alert alert-dismissable alert-success text-center" role="alert">
-			          			<strong>Success!</strong>  Your profile picture was uploaded!
-			          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>';
+							echo '	<div class="alert alert-dismissable alert-success text-center" role="alert">
+					          			<strong>Success!</strong>  Your profile picture was uploaded!
+					          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>';
 
 		        } else {
 		        	$errormsg = "Sorry something went wrong with updating your information, please refresh page and try again.";
-					echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-			          			'.$errormsg.'
-			          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>';
+							echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
+					          			'.$errormsg.'
+					          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>';
 		        }
 		    } else {
 		        $errormsg = "Sorry something went wrong with the upload, please refresh page and try again.";
-				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-		          			'.$errormsg.'
-		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>';
+						echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
+				          			'.$errormsg.'
+				          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>';
 		    }
 		}
 	}
@@ -276,12 +262,12 @@ $errormsg = "";
 
 			} else {
 	        	$errormsg = "Sorry something went wrong with updating your climbing stats, please refresh page and try again.";
-				echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
-		          			'.$errormsg.'
-		          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>';
+						echo '	<div class="alert alert-dismissable alert-danger text-center" role="alert">
+				          			'.$errormsg.'
+				          			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>';
 	        }
 
 		}

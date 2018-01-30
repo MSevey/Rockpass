@@ -1,18 +1,5 @@
 <?php
 
-//***********************************************************************
-//
-//	STATUS OF PAGE
-//
-//	Lets admin add gyms
-//
-//************************************************************************
-
-
-
-
-//Contains connectDB.php, session_start and decides which header to display
-//Also contains $userRow and $password which are the users info from the users table and their last entry in the passes table
 include("./chooseHeader.php");
 
 
@@ -21,7 +8,6 @@ $thisScriptName = "addGym.php";
 
 // sets error message to an empty highlight_string(str)
 $errormsg = "";
-
 
 // Clearing variables so that nothing shows up in the input fields
 $gymName = "";

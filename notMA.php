@@ -1,25 +1,9 @@
-<?php 
+<?php
 
-//**************************************
-//
-//  STATUS OF PAGE
-//
-//  Working
-//
-//
-//
-//*************************************
-
-
-
-
-//Contains connectDB.php, session_start and decides which header to display
-//Also contains $userRow and $password which are the users info from the users table and their last entry in the passes table
 include("./chooseHeader.php");
-  
 
 ?>
-    
+
 <div class="container">
 
   <div class="jumbotron">
@@ -33,7 +17,7 @@ include("./chooseHeader.php");
         <div class="col-md-6">
           <span class="glyphicon glyphicon-thumbs-up" style="font-size: 4em;"></span>
         </div>
-      </div> 
+      </div>
 
   </div>
 

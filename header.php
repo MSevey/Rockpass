@@ -1,34 +1,18 @@
-<?php 
-
-//***********************************************************************
-//
-//  STATUS OF PAGE
-// 
-//  1) Need to make all links fit in one drop down on the right of the navber.  Should be a 3 bar icon if possible.  Otherwise just "username"
-//
-//************************************************************************
-
- 
+<?php
 
 ob_start();
 
 date_default_timezone_set('America/New_York');
 
-
-
- ?>
-
-
-
+?>
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>The Rock Pass</title>
 
     <!-- Bootstrap -->
@@ -38,24 +22,15 @@ date_default_timezone_set('America/New_York');
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <!-- My javascript -->
-
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
     <!-- My Code Files -->
     <link rel="stylesheet" type="text/css" href="./css/myCSS.css">
-    
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
   </head>
 
   <body>
-    
+
     <!-- This is the navbar that is fixed to the top of the Screen -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
 
@@ -82,13 +57,11 @@ date_default_timezone_set('America/New_York');
 
 
       <div id="menu" class="list-group col-md-3">
-           
+
         <a href="./signUp" class="list-group-item">Sign Up!</a>
         <a href="./signIn" class="list-group-item">Sign In</a>
         <a href="./gyms" class="list-group-item">Gym Locations</a>
         <a href="./faq" class="list-group-item">FAQ</a>
         <a href="./contact" class="list-group-item">Contact Us</a>
-        <a href="./gymSignIn" class="list-group-item">Gym Sign In</a>
-        
-      </div>
 
+      </div>

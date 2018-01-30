@@ -1,28 +1,6 @@
 <?php
 
-/*
-********************************************************
-*
-*	File: conectDB.php
-*	By: Matthew Sevey
-*	Date: July 26, 2015
-*	Purpose: To connect to the RPassdb database
-*			and return an error message if unsuccessful
-*
-********************************************************
-*/
-
-//Creating the array $db so that inforamtion about the DB only has to be changed in one location
-
-	// // For using on computer localhost
-	// $db = array(
-	// 	'hostname' => 'localhost',
-	// 	'username' => 'root',
-	// 	'password' => 'password',
-	// 	'database' => 'rpassdb',
-	// 	);
-
-	// For using on live website
+//Creating the array $db
 	$db = array(
 		'hostname' => 'us-cdbr-iron-east-05.cleardb.net',
 		'username' => 'b9473b73b938d0',

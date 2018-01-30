@@ -1,17 +1,5 @@
 <?php
 
-
-//***********************************************************************
-//
-//	STATUS OF PAGE
-//
-//	1)  Need to understand what if statement with isset is really doing
-//		a) Does that also execute the isset command?
-//		b) Right now it is getting an error when trying to log in with only your email as it still executes the username code.
-//
-//************************************************************************
-
-
 session_start();
 
 include("./inc/connectDB.php");
@@ -62,7 +50,7 @@ if (isset($_POST["signIn"])) {
 			//Starts session and sends users to index page
 			session_start();
 			// Header is for localhost.  Does not work on live website
-			header("location: index");
+			header("location: profile");
 
 			// Javascript is for live website.  Does not work on localhost
 			// echo '<script type="text/javascript"> window.location="www.therockpass.com/index"; </script>';
@@ -86,11 +74,8 @@ if (isset($_POST["signIn"])) {
 
 				//Starts session and sends users to index page
 				session_start();
-				// Header is for localhost.  Does not work on live website
-				header("location: index");
 
-				// Javascript is for live website.  Does not work on localhost
-				// echo '<script type="text/javascript"> window.location="www.therockpass.com/index"; </script>';
+				header("location: profile");
 
 			} else {
 
